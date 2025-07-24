@@ -1,4 +1,5 @@
 import { useForm } from 'react-hook-form';
+import { useState, DragEvent } from 'react';
 
 interface FormData {
 	file: FileList;
@@ -9,10 +10,13 @@ function App() {
 		register,
 		handleSubmit,
 		watch,
-		formState: { isValid },
+		setValue,
+		formState: { isValid, errors },
 	} = useForm<FormData>({
 		mode: 'onChange',
 	});
+
+	const [isDragging, setIsDragging] = useState(false);
 
 	const file = watch('file');
 	const selectedFileName = file?.[0]?.name;
@@ -21,6 +25,26 @@ function App() {
 		if (data.file && data.file[0]) {
 			// TODO: 파일 처리 로직
 			console.log('Selected file:', data.file[0]);
+		}
+	};
+
+	const handleDragOver = (e: DragEvent<HTMLLabelElement>) => {
+		e.preventDefault();
+		setIsDragging(true);
+	};
+
+	const handleDragLeave = (e: DragEvent<HTMLLabelElement>) => {
+		e.preventDefault();
+		setIsDragging(false);
+	};
+
+	const handleDrop = (e: DragEvent<HTMLLabelElement>) => {
+		e.preventDefault();
+		setIsDragging(false);
+
+		const files = e.dataTransfer.files;
+		if (files && files.length > 0 && files[0].name.endsWith('.zip')) {
+			setValue('file', files, { shouldValidate: true });
 		}
 	};
 
@@ -38,7 +62,16 @@ function App() {
 
 				<div className="bg-white rounded-2xl shadow-xl p-8">
 					<form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-						<div className="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-purple-400 transition-colors">
+						<label 
+							htmlFor="file-upload" 
+							className={`border-2 border-dashed rounded-xl p-8 text-center transition-colors cursor-pointer block ${
+								isDragging 
+									? 'border-purple-500 bg-purple-50' 
+									: 'border-gray-300 hover:border-purple-400'
+							}`}
+							onDragOver={handleDragOver}
+							onDragLeave={handleDragLeave}
+							onDrop={handleDrop}>
 							<svg
 								className="mx-auto h-16 w-16 text-gray-400 mb-4"
 								stroke="currentColor"
@@ -59,22 +92,36 @@ function App() {
 									strokeLinejoin="round"
 								/>
 							</svg>
-							<label htmlFor="file-upload" className="cursor-pointer">
+							<div>
 								<span className="text-lg font-medium text-gray-700 block mb-2">
 									{selectedFileName || 'Choose your GPT export file'}
 								</span>
 								<span className="text-sm text-gray-500">
-									JSON format (conversations.json)
+									{isDragging ? 'Drop your file here' : 'ZIP format (export.zip) - Click or drag & drop'}
 								</span>
 								<input
-									{...register('file', { required: true })}
+									{...register('file', { 
+										required: true,
+										validate: {
+											isZip: (files) => {
+												if (!files || files.length === 0) return false;
+												return files[0].name.toLowerCase().endsWith('.zip') || 'Please select a ZIP file';
+											}
+										}
+									})}
 									id="file-upload"
 									type="file"
-									accept=".json"
+									accept=".zip"
 									className="sr-only"
 								/>
-							</label>
-						</div>
+							</div>
+						</label>
+
+						{errors.file && (
+							<p className="text-red-500 text-sm mt-2">
+								{errors.file.message}
+							</p>
+						)}
 
 						<button
 							type="submit"
