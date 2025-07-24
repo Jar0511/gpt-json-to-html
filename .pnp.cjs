@@ -29,6 +29,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./",\
         "packageDependencies": [\
           ["@tailwindcss/vite", "virtual:086eecf0c6b86f7dec52862b185d6cb3a8d4ca52afb33b2bb7fdb394b8c7e8cc3f84f884d17e9320286789409c39d5d4faa66fed0c070ddf49e7e0667c962377#npm:4.1.11"],\
+          ["@types/node", "npm:24.1.0"],\
           ["@types/react", "npm:19.1.8"],\
           ["@types/react-dom", "virtual:086eecf0c6b86f7dec52862b185d6cb3a8d4ca52afb33b2bb7fdb394b8c7e8cc3f84f884d17e9320286789409c39d5d4faa66fed0c070ddf49e7e0667c962377#npm:19.1.6"],\
           ["@vitejs/plugin-react", "virtual:086eecf0c6b86f7dec52862b185d6cb3a8d4ca52afb33b2bb7fdb394b8c7e8cc3f84f884d17e9320286789409c39d5d4faa66fed0c070ddf49e7e0667c962377#npm:4.7.0"],\
@@ -1110,6 +1111,16 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["@types/node", [\
+      ["npm:24.1.0", {\
+        "packageLocation": "./.yarn/cache/@types-node-npm-24.1.0-b409136c60-6c4686bc14.zip/node_modules/@types/node/",\
+        "packageDependencies": [\
+          ["@types/node", "npm:24.1.0"],\
+          ["undici-types", "npm:7.8.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["@types/react", [\
       ["npm:19.1.8", {\
         "packageLocation": "./.yarn/cache/@types-react-npm-19.1.8-419a091d82-4908772be6.zip/node_modules/@types/react/",\
@@ -1576,6 +1587,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./",\
         "packageDependencies": [\
           ["@tailwindcss/vite", "virtual:086eecf0c6b86f7dec52862b185d6cb3a8d4ca52afb33b2bb7fdb394b8c7e8cc3f84f884d17e9320286789409c39d5d4faa66fed0c070ddf49e7e0667c962377#npm:4.1.11"],\
+          ["@types/node", "npm:24.1.0"],\
           ["@types/react", "npm:19.1.8"],\
           ["@types/react-dom", "virtual:086eecf0c6b86f7dec52862b185d6cb3a8d4ca52afb33b2bb7fdb394b8c7e8cc3f84f884d17e9320286789409c39d5d4faa66fed0c070ddf49e7e0667c962377#npm:19.1.6"],\
           ["@vitejs/plugin-react", "virtual:086eecf0c6b86f7dec52862b185d6cb3a8d4ca52afb33b2bb7fdb394b8c7e8cc3f84f884d17e9320286789409c39d5d4faa66fed0c070ddf49e7e0667c962377#npm:4.7.0"],\
@@ -2464,6 +2476,15 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["undici-types", [\
+      ["npm:7.8.0", {\
+        "packageLocation": "./.yarn/cache/undici-types-npm-7.8.0-86f3e2d23e-9d9d246d1d.zip/node_modules/undici-types/",\
+        "packageDependencies": [\
+          ["undici-types", "npm:7.8.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["unique-filename", [\
       ["npm:4.0.0", {\
         "packageLocation": "./.yarn/cache/unique-filename-npm-4.0.0-bfc100c4e3-38ae681cce.zip/node_modules/unique-filename/",\
@@ -2521,7 +2542,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@types/less", null],\
           ["@types/lightningcss", null],\
-          ["@types/node", null],\
+          ["@types/node", "npm:24.1.0"],\
           ["@types/sass", null],\
           ["@types/sass-embedded", null],\
           ["@types/stylus", null],\
