@@ -1,11 +1,14 @@
 import { useForm } from 'react-hook-form';
 import { useState, DragEvent } from 'react';
+import { useTranslation } from 'react-i18next';
+import LanguageSwitcher from './components/LanguageSwitcher';
 
 interface FormData {
 	file: FileList;
 }
 
 function App() {
+	const { t } = useTranslation();
 	const {
 		register,
 		handleSubmit,
@@ -51,27 +54,29 @@ function App() {
 	return (
 		<div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center p-4">
 			<div className="w-full max-w-2xl">
+				<div className="flex justify-end mb-4">
+					<LanguageSwitcher />
+				</div>
 				<div className="text-center mb-12">
 					<h1 className="text-5xl font-bold text-gray-800 mb-4 tracking-tight">
-						GPT Conversations to HTML
+						{t('title')}
 					</h1>
-					<p className="text-xl text-gray-600">
-						Transform your ChatGPT export data into beautiful HTML pages
-					</p>
+					<p className="text-xl text-gray-600">{t('subtitle')}</p>
 				</div>
 
 				<div className="bg-white rounded-2xl shadow-xl p-8">
 					<form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-						<label 
-							htmlFor="file-upload" 
+						<label
+							htmlFor="file-upload"
 							className={`border-2 border-dashed rounded-xl p-8 text-center transition-colors cursor-pointer block ${
-								isDragging 
-									? 'border-purple-500 bg-purple-50' 
+								isDragging
+									? 'border-purple-500 bg-purple-50'
 									: 'border-gray-300 hover:border-purple-400'
 							}`}
 							onDragOver={handleDragOver}
 							onDragLeave={handleDragLeave}
-							onDrop={handleDrop}>
+							onDrop={handleDrop}
+						>
 							<svg
 								className="mx-auto h-16 w-16 text-gray-400 mb-4"
 								stroke="currentColor"
@@ -94,20 +99,25 @@ function App() {
 							</svg>
 							<div>
 								<span className="text-lg font-medium text-gray-700 block mb-2">
-									{selectedFileName || 'Choose your GPT export file'}
+									{selectedFileName || t('fileUpload.chooseFile')}
 								</span>
 								<span className="text-sm text-gray-500">
-									{isDragging ? 'Drop your file here' : 'ZIP format (export.zip) - Click or drag & drop'}
+									{isDragging
+										? t('fileUpload.dropHere')
+										: t('fileUpload.instructions')}
 								</span>
 								<input
-									{...register('file', { 
+									{...register('file', {
 										required: true,
 										validate: {
 											isZip: (files) => {
 												if (!files || files.length === 0) return false;
-												return files[0].name.toLowerCase().endsWith('.zip') || 'Please select a ZIP file';
-											}
-										}
+												return (
+													files[0].name.toLowerCase().endsWith('.zip') ||
+													t('errors.selectZipFile')
+												);
+											},
+										},
 									})}
 									id="file-upload"
 									type="file"
@@ -118,9 +128,7 @@ function App() {
 						</label>
 
 						{errors.file && (
-							<p className="text-red-500 text-sm mt-2">
-								{errors.file.message}
-							</p>
+							<p className="text-red-500 text-sm mt-2">{errors.file.message}</p>
 						)}
 
 						<button
@@ -128,15 +136,12 @@ function App() {
 							disabled={!isValid}
 							className="w-full py-4 px-6 text-lg font-semibold text-white bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl hover:from-purple-700 hover:to-blue-700 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
 						>
-							Convert to HTML
+							{t('buttons.convert')}
 						</button>
 					</form>
 				</div>
 
-				<p className="text-center text-sm text-gray-500 mt-8">
-					Upload your ChatGPT conversations export and convert them into a
-					beautifully formatted HTML document
-				</p>
+				<p className="text-center text-sm text-gray-500 mt-8">{t('footer')}</p>
 			</div>
 		</div>
 	);

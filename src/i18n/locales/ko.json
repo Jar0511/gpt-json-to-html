@@ -1,0 +1,16 @@
+{
+	"title": "GPT 대화 HTML 변환기",
+	"subtitle": "ChatGPT 내보내기 데이터를 아름다운 HTML 페이지로 변환하세요",
+	"fileUpload": {
+		"chooseFile": "GPT 내보내기 파일을 선택하세요",
+		"dropHere": "파일을 여기에 놓으세요",
+		"instructions": "ZIP 형식 (export.zip) - 클릭하거나 드래그 앤 드롭"
+	},
+	"errors": {
+		"selectZipFile": "ZIP 파일을 선택해주세요"
+	},
+	"buttons": {
+		"convert": "HTML로 변환"
+	},
+	"footer": "ChatGPT 대화 내보내기를 업로드하여 아름답게 포맷된 HTML 문서로 변환하세요"
+}

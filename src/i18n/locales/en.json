@@ -1,0 +1,16 @@
+{
+	"title": "GPT Conversations to HTML",
+	"subtitle": "Transform your ChatGPT export data into beautiful HTML pages",
+	"fileUpload": {
+		"chooseFile": "Choose your GPT export file",
+		"dropHere": "Drop your file here",
+		"instructions": "ZIP format (export.zip) - Click or drag & drop"
+	},
+	"errors": {
+		"selectZipFile": "Please select a ZIP file"
+	},
+	"buttons": {
+		"convert": "Convert to HTML"
+	},
+	"footer": "Upload your ChatGPT conversations export and convert them into a beautifully formatted HTML document"
+}
