@@ -10,6 +10,7 @@ export function FileUploadForm() {
 		isValid,
 		selectedFileName,
 		isDragging,
+		isLoading,
 		onSubmit,
 		handleDragOver,
 		handleDragLeave,
@@ -86,10 +87,19 @@ export function FileUploadForm() {
 
 				<button
 					type="submit"
-					disabled={!isValid}
-					className="w-full py-4 px-6 text-lg font-semibold text-white bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl hover:from-purple-700 hover:to-blue-700 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 focus:outline-2 focus:outline-offset-2 focus:outline-black"
+					disabled={!isValid || isLoading}
+					className="w-full py-4 px-6 text-lg font-semibold text-white bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl hover:not-disabled:from-purple-700 hover:not-disabled:to-blue-700 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:not-disabled:shadow-xl transform hover:not-disabled:-translate-y-0.5 focus:outline-2 focus:outline-offset-2 focus:outline-black cursor-pointer relative"
 				>
-					{t('buttons.convert')}
+					{isLoading ? (
+						<>
+							<span className="opacity-0">{t('buttons.convert')}</span>
+							<div className="absolute inset-0 flex items-center justify-center">
+								<div className="w-6 h-6 border-3 border-white border-t-transparent rounded-full animate-spin"></div>
+							</div>
+						</>
+					) : (
+						t('buttons.convert')
+					)}
 				</button>
 			</form>
 		</div>

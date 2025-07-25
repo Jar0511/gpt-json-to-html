@@ -7,7 +7,9 @@
 		"instructions": "ZIP 형식 (export.zip) - 클릭하거나 드래그 앤 드롭"
 	},
 	"errors": {
-		"selectZipFile": "ZIP 파일을 선택해주세요"
+		"selectZipFile": "ZIP 파일을 선택해주세요",
+		"noConversationsJson": "ZIP 파일 내에 conversations.json 파일이 없습니다",
+		"invalidZipFile": "유효하지 않은 ZIP 파일입니다"
 	},
 	"buttons": {
 		"convert": "HTML로 변환"

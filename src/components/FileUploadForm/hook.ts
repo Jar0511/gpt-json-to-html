@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { useState, DragEvent } from 'react';
 import { useTranslation } from 'react-i18next';
+import JSZip from 'jszip';
 
 interface FormData {
 	file: FileList;
@@ -19,14 +20,37 @@ export function useFileUploadForm() {
 	});
 
 	const [isDragging, setIsDragging] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const file = watch('file');
 	const selectedFileName = file?.[0]?.name;
 
-	const onSubmit = (data: FormData) => {
+	const onSubmit = async (data: FormData) => {
 		if (data.file && data.file[0]) {
-			// TODO: 파일 처리 로직
-			console.log('Selected file:', data.file[0]);
+			const file = data.file[0];
+			setIsLoading(true);
+
+			try {
+				const zip = new JSZip();
+				const zipContent = await zip.loadAsync(file);
+
+				// conversations.json 파일이 존재하는지 확인
+				const conversationsFile = zipContent.file('conversations.json');
+
+				if (!conversationsFile) {
+					alert(t('errors.noConversationsJson'));
+					setIsLoading(false);
+					return;
+				}
+
+				// TODO: conversations.json 파일 처리 로직
+				console.log('Valid zip file with conversations.json');
+			} catch (error) {
+				console.error('Error processing zip file:', error);
+				alert(t('errors.invalidZipFile'));
+			} finally {
+				setIsLoading(false);
+			}
 		}
 	};
 
@@ -57,6 +81,7 @@ export function useFileUploadForm() {
 		isValid,
 		selectedFileName,
 		isDragging,
+		isLoading,
 		onSubmit,
 		handleDragOver,
 		handleDragLeave,

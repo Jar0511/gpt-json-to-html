@@ -7,7 +7,9 @@
 		"instructions": "ZIP format (export.zip) - Click or drag & drop"
 	},
 	"errors": {
-		"selectZipFile": "Please select a ZIP file"
+		"selectZipFile": "Please select a ZIP file",
+		"noConversationsJson": "No conversations.json file found in the ZIP",
+		"invalidZipFile": "Invalid ZIP file"
 	},
 	"buttons": {
 		"convert": "Convert to HTML"
