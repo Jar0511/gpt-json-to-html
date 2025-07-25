@@ -52,12 +52,13 @@ function App() {
 	};
 
 	return (
-		<div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center p-4">
-			<div className="w-full max-w-2xl">
-				<div className="flex justify-end mb-4">
-					<LanguageSwitcher />
-				</div>
-				<div className="text-center mb-12">
+		<div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 p-4">
+			<div className="absolute top-4 right-4">
+				<LanguageSwitcher />
+			</div>
+			<div className="flex items-center justify-center min-h-screen">
+				<div className="w-full max-w-2xl">
+					<div className="text-center mb-12">
 					<h1 className="text-5xl font-bold text-gray-800 mb-4 tracking-tight">
 						{t('title')}
 					</h1>
@@ -141,7 +142,8 @@ function App() {
 					</form>
 				</div>
 
-				<p className="text-center text-sm text-gray-500 mt-8">{t('footer')}</p>
+					<p className="text-center text-sm text-gray-500 mt-8">{t('footer')}</p>
+				</div>
 			</div>
 		</div>
 	);

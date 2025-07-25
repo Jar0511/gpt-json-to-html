@@ -3,33 +3,27 @@ import { useTranslation } from 'react-i18next';
 const LanguageSwitcher = () => {
 	const { i18n } = useTranslation();
 
-	const changeLanguage = (lng: string) => {
-		i18n.changeLanguage(lng);
+	const languages = [
+		{ code: 'ko', name: '한국어' },
+		{ code: 'en', name: 'English' },
+	];
+
+	const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+		i18n.changeLanguage(e.target.value);
 	};
 
 	return (
-		<div className="flex gap-2">
-			<button
-				onClick={() => changeLanguage('ko')}
-				className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
-					i18n.language === 'ko'
-						? 'bg-blue-600 text-white'
-						: 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-				}`}
-			>
-				한국어
-			</button>
-			<button
-				onClick={() => changeLanguage('en')}
-				className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
-					i18n.language === 'en'
-						? 'bg-blue-600 text-white'
-						: 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-				}`}
-			>
-				English
-			</button>
-		</div>
+		<select
+			value={i18n.language}
+			onChange={handleLanguageChange}
+			className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer"
+		>
+			{languages.map((lang) => (
+				<option key={lang.code} value={lang.code}>
+					{lang.name}
+				</option>
+			))}
+		</select>
 	);
 };
 
