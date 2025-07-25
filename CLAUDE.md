@@ -70,3 +70,7 @@ This is a React + TypeScript + Vite project with the following technologies:
 - `src/index.css` - Main CSS file with Tailwind import
 - `.yarnrc.yml` - Yarn configuration with PnP enabled
 - `yarn.lock` - Yarn lockfile for dependency versions
+
+## Development Guidelines
+
+- package.json의 스크립트는 직접 수행하지 마세요.
