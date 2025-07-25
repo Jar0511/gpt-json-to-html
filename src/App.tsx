@@ -71,7 +71,7 @@ function App() {
 						<form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
 							<label
 								htmlFor="file-upload"
-								className={`border-2 border-dashed rounded-xl p-8 text-center transition-colors cursor-pointer block ${
+								className={`border-2 border-dashed rounded-xl p-8 text-center transition-colors cursor-pointer block focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-black ${
 									isDragging
 										? 'border-purple-500 bg-purple-50 dark:bg-purple-900/20'
 										: 'border-gray-300 dark:border-gray-600 hover:border-purple-400 dark:hover:border-purple-500'
@@ -139,7 +139,7 @@ function App() {
 							<button
 								type="submit"
 								disabled={!isValid}
-								className="w-full py-4 px-6 text-lg font-semibold text-white bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl hover:from-purple-700 hover:to-blue-700 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+								className="w-full py-4 px-6 text-lg font-semibold text-white bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl hover:from-purple-700 hover:to-blue-700 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 focus:outline-2 focus:outline-offset-2 focus:outline-black"
 							>
 								{t('buttons.convert')}
 							</button>
