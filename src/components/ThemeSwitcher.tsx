@@ -7,7 +7,9 @@ const ThemeSwitcher = () => {
 		<button
 			onClick={toggleTheme}
 			className="p-2 rounded-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500 transition-colors cursor-pointer focus:outline-2 focus:outline-offset-2 focus:outline-black"
-			aria-label={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
+			aria-label={
+				theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'
+			}
 		>
 			{theme === 'light' ? (
 				<svg

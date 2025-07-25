@@ -64,7 +64,9 @@ function App() {
 						<h1 className="text-5xl font-bold text-gray-800 dark:text-gray-100 mb-4 tracking-tight">
 							{t('title')}
 						</h1>
-						<p className="text-xl text-gray-600 dark:text-gray-300">{t('subtitle')}</p>
+						<p className="text-xl text-gray-600 dark:text-gray-300">
+							{t('subtitle')}
+						</p>
 					</div>
 
 					<div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8">
