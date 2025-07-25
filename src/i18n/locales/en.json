@@ -9,10 +9,19 @@
 	"errors": {
 		"selectZipFile": "Please select a ZIP file",
 		"noConversationsJson": "No conversations.json file found in the ZIP",
-		"invalidZipFile": "Invalid ZIP file"
+		"invalidZipFile": "Invalid ZIP file",
+		"invalidJsonFormat": "Invalid JSON format",
+		"conversationsNotArray": "Conversations data is not an array"
 	},
 	"buttons": {
 		"convert": "Convert to HTML"
+	},
+	"loading": {
+		"openingZip": "Opening ZIP file...",
+		"searchingFile": "Searching for conversations.json...",
+		"readingFile": "Reading file...",
+		"parsingJson": "Parsing JSON data...",
+		"processingConversations": "Processing conversations..."
 	},
 	"footer": "Upload your ChatGPT conversations export and convert them into a beautifully formatted HTML document"
 }

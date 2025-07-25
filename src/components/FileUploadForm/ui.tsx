@@ -11,6 +11,7 @@ export function FileUploadForm() {
 		selectedFileName,
 		isDragging,
 		isLoading,
+		loadingStep,
 		onSubmit,
 		handleDragOver,
 		handleDragLeave,
@@ -93,8 +94,11 @@ export function FileUploadForm() {
 					{isLoading ? (
 						<>
 							<span className="opacity-0">{t('buttons.convert')}</span>
-							<div className="absolute inset-0 flex items-center justify-center">
+							<div className="absolute inset-0 flex flex-col items-center justify-center gap-2">
 								<div className="w-6 h-6 border-3 border-white border-t-transparent rounded-full animate-spin"></div>
+								{loadingStep && (
+									<span className="text-sm">{loadingStep}</span>
+								)}
 							</div>
 						</>
 					) : (
