@@ -6,44 +6,47 @@ import { SidebarItem, isSidebarProject } from './conversationProcessor';
  * @param isIndexPage index.html 페이지인지 여부 (경로 결정용)
  * @returns 생성된 HTML 문자열
  */
-export function generateSidebarHTML(sidebarItems: SidebarItem[], isIndexPage: boolean = true): string {
+export function generateSidebarHTML(
+	sidebarItems: SidebarItem[],
+	isIndexPage: boolean = true
+): string {
 	const pathPrefix = isIndexPage ? 'pages/' : '';
-	
+
 	// 프로젝트와 일반 대화 분리
-	const projects = sidebarItems.filter(item => isSidebarProject(item));
-	const regularItems = sidebarItems.filter(item => !isSidebarProject(item));
-	
+	const projects = sidebarItems.filter((item) => isSidebarProject(item));
+	const regularItems = sidebarItems.filter((item) => !isSidebarProject(item));
+
 	let html = '<ul class="conversation-list">\n';
-	
+
 	// 프로젝트 섹션
 	if (projects.length > 0) {
 		html += '\t<li class="section-header">프로젝트</li>\n';
-		
+
 		projects.forEach((project, index) => {
 			if (isSidebarProject(project)) {
 				html += '\t<li class="conversation-item project-item">\n';
 				html += '\t\t<details>\n';
 				html += `\t\t\t<summary class="project-title">${escapeHtml(project.title)}</summary>\n`;
 				html += '\t\t\t<ul class="project-children">\n';
-				
-				project.children.forEach(child => {
+
+				project.children.forEach((child) => {
 					html += '\t\t\t\t<li class="child-item">\n';
 					html += `\t\t\t\t\t<a href="${pathPrefix}${child.id}.html">${escapeHtml(child.title)}</a>\n`;
 					html += '\t\t\t\t</li>\n';
 				});
-				
+
 				html += '\t\t\t</ul>\n';
 				html += '\t\t</details>\n';
 				html += '\t</li>\n';
 			}
 		});
 	}
-	
+
 	// 일반 대화 섹션
 	if (regularItems.length > 0) {
 		html += '\t<li class="section-header">채팅</li>\n';
-		
-		regularItems.forEach(item => {
+
+		regularItems.forEach((item) => {
 			if (!isSidebarProject(item)) {
 				html += '\t<li class="conversation-item">\n';
 				html += `\t\t<a href="${pathPrefix}${item.id}.html">${escapeHtml(item.title)}</a>\n`;
@@ -51,9 +54,9 @@ export function generateSidebarHTML(sidebarItems: SidebarItem[], isIndexPage: bo
 			}
 		});
 	}
-	
+
 	html += '</ul>';
-	
+
 	return html;
 }
 
@@ -62,11 +65,11 @@ export function generateSidebarHTML(sidebarItems: SidebarItem[], isIndexPage: bo
  */
 function escapeHtml(unsafe: string): string {
 	return unsafe
-		.replace(/&/g, "&amp;")
-		.replace(/</g, "&lt;")
-		.replace(/>/g, "&gt;")
-		.replace(/"/g, "&quot;")
-		.replace(/'/g, "&#039;");
+		.replace(/&/g, '&amp;')
+		.replace(/</g, '&lt;')
+		.replace(/>/g, '&gt;')
+		.replace(/"/g, '&quot;')
+		.replace(/'/g, '&#039;');
 }
 
 /**

@@ -26,7 +26,9 @@ interface Conversation {
 }
 
 // conversations 배열을 update_time 기준으로 정렬
-export function sortConversationsByUpdateTime(conversations: Conversation[]): Conversation[] {
+export function sortConversationsByUpdateTime(
+	conversations: Conversation[]
+): Conversation[] {
 	return conversations.sort((a, b) => {
 		const timeA = a.update_time || 0;
 		const timeB = b.update_time || 0;
@@ -99,13 +101,17 @@ export function createSidebarItems(
 export function processConversations(conversations: any[]) {
 	// 1. 정렬
 	const sortedConversations = sortConversationsByUpdateTime(conversations);
-	
+
 	// 2. 분리
-	const { regularConversations, groupedConversations } = splitConversations(sortedConversations);
-	
+	const { regularConversations, groupedConversations } =
+		splitConversations(sortedConversations);
+
 	// 3. 사이드바 아이템 생성
-	const sidebarItems = createSidebarItems(groupedConversations, regularConversations);
-	
+	const sidebarItems = createSidebarItems(
+		groupedConversations,
+		regularConversations
+	);
+
 	return {
 		conversations: sortedConversations,
 		regularConversations,

@@ -78,7 +78,11 @@ export function useFileUploadForm() {
 				} = processConversations(conversations);
 
 				console.log('Regular conversations:', regularConversations.length);
-				console.log('Grouped conversations:', groupedConversations.length, 'groups');
+				console.log(
+					'Grouped conversations:',
+					groupedConversations.length,
+					'groups'
+				);
 				console.log('Sidebar items created:', sidebarItems.length);
 
 				// 사이드바 HTML 생성
