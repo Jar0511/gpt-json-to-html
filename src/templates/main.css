@@ -269,6 +269,22 @@ body {
 	background-color: #e8f4ff;
 }
 
+/* Current page highlighting */
+.highlight-current {
+	position: relative;
+	background-color: #e8f4ff !important;
+}
+
+.highlight-current::before {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	width: 3px;
+	background-color: #0066cc;
+}
+
 /* Scrollbar styles */
 ::-webkit-scrollbar {
 	width: 8px;

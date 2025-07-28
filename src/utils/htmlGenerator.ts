@@ -1,14 +1,27 @@
-import { SidebarItem, isSidebarProject } from './conversationProcessor';
+import {
+	Conversation,
+	SidebarItem,
+	isSidebarProject,
+} from '@/types/conversation';
+import JSZip from 'jszip';
+
+// Import template files as strings
+import indexHtmlTemplate from '@/templates/index.html?raw';
+import pageHtmlTemplate from '@/templates/page.html?raw';
+import mainCssTemplate from '@/templates/main.css?raw';
+import scriptJsTemplate from '@/templates/script.js?raw';
 
 /**
  * 사이드바 HTML 생성
  * @param sidebarItems 사이드바 아이템 배열
  * @param isIndexPage index.html 페이지인지 여부 (경로 결정용)
+ * @param currentPageId 현재 페이지의 conversation ID (선택적)
  * @returns 생성된 HTML 문자열
  */
 export function generateSidebarHTML(
 	sidebarItems: SidebarItem[],
-	isIndexPage: boolean = true
+	isIndexPage: boolean = true,
+	currentPageId?: string
 ): string {
 	const pathPrefix = isIndexPage ? 'pages/' : '';
 
@@ -30,7 +43,8 @@ export function generateSidebarHTML(
 				html += '\t\t\t<ul class="project-children">\n';
 
 				project.children.forEach((child) => {
-					html += '\t\t\t\t<li class="child-item">\n';
+					const isCurrentPage = child.id === currentPageId;
+					html += `\t\t\t\t<li class="child-item"${isCurrentPage ? ' id="current-page-item"' : ''}>\n`;
 					html += `\t\t\t\t\t<a href="${pathPrefix}${child.id}.html">${escapeHtml(child.title)}</a>\n`;
 					html += '\t\t\t\t</li>\n';
 				});
@@ -48,7 +62,8 @@ export function generateSidebarHTML(
 
 		regularItems.forEach((item) => {
 			if (!isSidebarProject(item)) {
-				html += '\t<li class="conversation-item">\n';
+				const isCurrentPage = item.id === currentPageId;
+				html += `\t<li class="conversation-item"${isCurrentPage ? ' id="current-page-item"' : ''}>\n`;
 				html += `\t\t<a href="${pathPrefix}${item.id}.html">${escapeHtml(item.title)}</a>\n`;
 				html += '\t</li>\n';
 			}
@@ -73,92 +88,81 @@ function escapeHtml(unsafe: string): string {
 }
 
 /**
- * CSS-only 드롭다운을 위한 추가 스타일
- * main.css에 추가해야 할 스타일
+ * Generate index.html with sidebar
  */
-export const dropdownStyles = `
-/* 섹션 헤더 스타일 */
-.section-header {
-	padding: 10px 20px;
-	font-weight: 600;
-	color: #666;
-	font-size: 0.875rem;
-	text-transform: uppercase;
-	letter-spacing: 0.05em;
-	border-bottom: 1px solid #f0f0f0;
+function generateIndexHtml(
+	template: string,
+	sidebarItems: SidebarItem[]
+): string {
+	const sidebarHtml = generateSidebarHTML(sidebarItems, true);
+	return template.replace('{{SIDEBAR_HTML}}', sidebarHtml);
 }
 
-/* 프로젝트 아이템 스타일 */
-.project-item details {
-	width: 100%;
+/**
+ * Generate individual conversation page HTML
+ */
+function generateConversationPageHtml(
+	template: string,
+	conversation: Conversation,
+	sidebarItems: SidebarItem[]
+): string {
+	const sidebarHtml = generateSidebarHTML(sidebarItems, false, conversation.id);
+	const title = conversation.title || 'Untitled Conversation';
+	const date = new Date(conversation.update_time * 1000).toLocaleDateString(
+		'ko-KR'
+	);
+
+	// Count messages if mapping exists
+	let messageCount = 0;
+	if (conversation.mapping) {
+		messageCount = Object.values(conversation.mapping).filter(
+			(node: any) => node.message?.content?.content_type === 'text'
+		).length;
+	}
+
+	let html = template
+		.replace(/{{SIDEBAR_HTML}}/g, sidebarHtml)
+		.replace(/{{CONVERSATION_TITLE}}/g, escapeHtml(title))
+		.replace(/{{CONVERSATION_DATE}}/g, date)
+		.replace(/{{MESSAGE_COUNT}}/g, messageCount.toString())
+		.replace(
+			/{{CONVERSATION_CONTENT}}/g,
+			'<p>대화 내용은 나중에 구현될 예정입니다.</p>'
+		);
+
+	return html;
 }
 
-.project-item summary {
-	display: block;
-	padding: 15px 20px;
-	cursor: pointer;
-	user-select: none;
-	font-weight: 500;
-	color: #1a1a1a;
-	transition: background-color 0.2s;
-	list-style: none;
-}
+/**
+ * Generate complete HTML export as a zip file
+ */
+export async function generateHtmlExport(
+	conversations: Conversation[],
+	sidebarItems: SidebarItem[]
+): Promise<Blob> {
+	const zip = new JSZip();
 
-.project-item summary::-webkit-details-marker {
-	display: none;
-}
+	// Generate index.html
+	const indexHtml = generateIndexHtml(indexHtmlTemplate, sidebarItems);
+	zip.file('index.html', indexHtml);
 
-.project-item summary::before {
-	content: '▶';
-	display: inline-block;
-	margin-right: 8px;
-	font-size: 0.75em;
-	transition: transform 0.2s;
-}
+	// Generate style/main.css
+	zip.folder('style')?.file('main.css', mainCssTemplate);
 
-.project-item details[open] summary::before {
-	transform: rotate(90deg);
-}
+	// Generate js/script.js
+	zip.folder('js')?.file('script.js', scriptJsTemplate);
 
-.project-item summary:hover {
-	background-color: #f0f7ff;
-}
+	// Generate pages/*.html for each conversation
+	const pagesFolder = zip.folder('pages');
+	conversations.forEach((conversation) => {
+		const pageHtml = generateConversationPageHtml(
+			pageHtmlTemplate,
+			conversation,
+			sidebarItems
+		);
+		pagesFolder?.file(`${conversation.id}.html`, pageHtml);
+	});
 
-/* 프로젝트 하위 아이템 스타일 */
-.project-children {
-	list-style: none;
-	padding: 0;
-	margin: 0;
-	background-color: #f8f9fa;
+	// Generate zip file
+	return await zip.generateAsync({ type: 'blob' });
 }
-
-.child-item {
-	border-left: 20px solid transparent;
-}
-
-.child-item a {
-	display: block;
-	padding: 12px 20px;
-	color: #333;
-	text-decoration: none;
-	font-size: 0.925rem;
-	transition: background-color 0.2s;
-}
-
-.child-item a:hover {
-	background-color: #e8f4ff;
-}
-
-/* 일반 대화 아이템 스타일 유지 */
-.conversation-item:not(.project-item) a {
-	display: block;
-	padding: 15px 20px;
-	text-decoration: none;
-	color: #333;
-	transition: background-color 0.2s;
-}
-
-.conversation-item:not(.project-item):hover a {
-	background-color: #f0f7ff;
-}
-`;

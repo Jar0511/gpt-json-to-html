@@ -21,7 +21,8 @@
 		"searchingFile": "conversations.json 파일 찾는 중...",
 		"readingFile": "파일 읽기...",
 		"parsingJson": "JSON 데이터 분석 중...",
-		"processingConversations": "대화 내용 처리 중..."
+		"processingConversations": "대화 내용 처리 중...",
+		"generatingHtml": "HTML 파일 생성 중..."
 	},
 	"footer": "ChatGPT 대화 내보내기를 업로드하여 아름답게 포맷된 HTML 문서로 변환하세요"
 }

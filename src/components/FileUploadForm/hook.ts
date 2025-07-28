@@ -3,7 +3,7 @@ import { useState, DragEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import JSZip from 'jszip';
 import { processConversations } from '@/utils/conversationProcessor';
-import { generateSidebarHTML } from '@/utils/htmlGenerator';
+import { generateHtmlExport } from '@/utils/htmlGenerator';
 
 interface FormData {
 	file: FileList;
@@ -85,13 +85,23 @@ export function useFileUploadForm() {
 				);
 				console.log('Sidebar items created:', sidebarItems.length);
 
-				// 사이드바 HTML 생성
-				const sidebarHTMLForIndex = generateSidebarHTML(sidebarItems, true); // index.html용
-				const sidebarHTMLForPages = generateSidebarHTML(sidebarItems, false); // pages/*.html용
+				// HTML 생성 및 ZIP 패키징
+				setLoadingStep(t('loading.generatingHtml'));
+				const htmlZipBlob = await generateHtmlExport(
+					sortedConversations,
+					sidebarItems
+				);
 
-				console.log('Sidebar HTML generated for index and pages');
+				// 다운로드 트리거
+				const downloadLink = document.createElement('a');
+				downloadLink.href = URL.createObjectURL(htmlZipBlob);
+				downloadLink.download = 'chatgpt-conversations.zip';
+				document.body.appendChild(downloadLink);
+				downloadLink.click();
+				document.body.removeChild(downloadLink);
+				URL.revokeObjectURL(downloadLink.href);
 
-				// TODO: 생성된 HTML을 zip 파일로 패키징
+				console.log('HTML export completed and download triggered');
 			} catch (error) {
 				console.error('Error processing zip file:', error);
 				alert(t('errors.invalidZipFile'));

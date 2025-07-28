@@ -21,7 +21,8 @@
 		"searchingFile": "Searching for conversations.json...",
 		"readingFile": "Reading file...",
 		"parsingJson": "Parsing JSON data...",
-		"processingConversations": "Processing conversations..."
+		"processingConversations": "Processing conversations...",
+		"generatingHtml": "Generating HTML files..."
 	},
 	"footer": "Upload your ChatGPT conversations export and convert them into a beautifully formatted HTML document"
 }

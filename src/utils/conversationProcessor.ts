@@ -1,29 +1,9 @@
-// 사이드바 아이템 타입 정의
-export interface SidebarItemBase {
-	title: string;
-	id: string;
-}
-
-export interface SidebarProject {
-	title: string;
-	children: SidebarItemBase[];
-}
-
-export type SidebarItem = SidebarItemBase | SidebarProject;
-
-// 타입 가드 함수
-export function isSidebarProject(item: SidebarItem): item is SidebarProject {
-	return 'children' in item;
-}
-
-// Conversation 타입 (ChatGPT export 형식에 맞춤)
-interface Conversation {
-	id: string;
-	title: string | null;
-	update_time: number;
-	conversation_template_id: string | null;
-	[key: string]: any;
-}
+import {
+	Conversation,
+	SidebarItem,
+	SidebarItemBase,
+	SidebarProject,
+} from '@/types/conversation';
 
 // conversations 배열을 update_time 기준으로 정렬
 export function sortConversationsByUpdateTime(
@@ -98,7 +78,7 @@ export function createSidebarItems(
 }
 
 // 전체 처리 프로세스
-export function processConversations(conversations: any[]) {
+export function processConversations(conversations: Conversation[]) {
 	// 1. 정렬
 	const sortedConversations = sortConversationsByUpdateTime(conversations);
 
@@ -119,3 +99,7 @@ export function processConversations(conversations: any[]) {
 		sidebarItems,
 	};
 }
+
+// Re-export types for convenience
+export type { Conversation, SidebarItem } from '@/types/conversation';
+export { isSidebarProject } from '@/types/conversation';
