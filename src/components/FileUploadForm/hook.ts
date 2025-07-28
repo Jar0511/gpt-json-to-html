@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import { useState, DragEvent } from 'react';
+import { useState, DragEvent, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import JSZip from 'jszip';
 import { processConversations } from '@/utils/conversationProcessor';
@@ -15,14 +15,14 @@ export function useFileUploadForm() {
 		register,
 		handleSubmit,
 		watch,
-		setValue,
-		formState: { isValid, errors },
+		formState: { errors, isDirty },
 	} = useForm<FormData>({
 		mode: 'onChange',
 	});
 
 	const [isDragging, setIsDragging] = useState(false);
 	const [loadingStep, setLoadingStep] = useState<string | null>(null);
+	const fileInputRef = useRef<HTMLInputElement | null>(null);
 
 	const file = watch('file');
 	const selectedFileName = file?.[0]?.name;
@@ -121,13 +121,24 @@ export function useFileUploadForm() {
 		setIsDragging(false);
 	};
 
-	const handleDrop = (e: DragEvent<HTMLLabelElement>) => {
+	const handleDrop = async (e: DragEvent<HTMLLabelElement>) => {
 		e.preventDefault();
 		setIsDragging(false);
 
 		const files = e.dataTransfer.files;
 		if (files && files.length > 0 && files[0].name.endsWith('.zip')) {
-			setValue('file', files, { shouldValidate: true });
+			// Create a new DataTransfer to set files on the input
+			if (fileInputRef.current) {
+				const dataTransfer = new DataTransfer();
+				for (let i = 0; i < files.length; i++) {
+					dataTransfer.items.add(files[i]);
+				}
+				fileInputRef.current.files = dataTransfer.files;
+
+				// Trigger change event to update form state
+				const event = new Event('change', { bubbles: true });
+				fileInputRef.current.dispatchEvent(event);
+			}
 		}
 	};
 
@@ -135,7 +146,7 @@ export function useFileUploadForm() {
 		register,
 		handleSubmit,
 		errors,
-		isValid,
+		isDirty,
 		selectedFileName,
 		isDragging,
 		isLoading: !!loadingStep,
@@ -144,5 +155,6 @@ export function useFileUploadForm() {
 		handleDragOver,
 		handleDragLeave,
 		handleDrop,
+		fileInputRef,
 	};
 }

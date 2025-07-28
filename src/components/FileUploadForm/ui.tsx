@@ -7,7 +7,7 @@ export function FileUploadForm() {
 		register,
 		handleSubmit,
 		errors,
-		isValid,
+		isDirty,
 		selectedFileName,
 		isDragging,
 		isLoading,
@@ -16,6 +16,7 @@ export function FileUploadForm() {
 		handleDragOver,
 		handleDragLeave,
 		handleDrop,
+		fileInputRef,
 	} = useFileUploadForm();
 
 	return (
@@ -74,6 +75,10 @@ export function FileUploadForm() {
 									},
 								},
 							})}
+							ref={(e) => {
+								register('file').ref(e);
+								fileInputRef.current = e;
+							}}
 							id="file-upload"
 							type="file"
 							accept=".zip"
@@ -88,7 +93,7 @@ export function FileUploadForm() {
 
 				<button
 					type="submit"
-					disabled={!isValid || isLoading}
+					disabled={!isDirty || isLoading}
 					className="w-full py-4 px-6 text-lg font-semibold text-white bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl hover:not-disabled:from-purple-700 hover:not-disabled:to-blue-700 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:not-disabled:shadow-xl transform hover:not-disabled:-translate-y-0.5 focus:outline-2 focus:outline-offset-2 focus:outline-black cursor-pointer relative"
 				>
 					{isLoading ? (
