@@ -73,4 +73,8 @@ This is a React + TypeScript + Vite project with the following technologies:
 
 ## Development Guidelines
 
-- package.json의 스크립트는 직접 수행하지 마세요.
+- Windows 11 환경에서는 yarn 명령어 대신 npx를 사용하여 스크립트를 실행하세요:
+  - `yarn format` → `npx prettier --write . --cache --cache-location ./.cache/.prettier-cache`
+  - `yarn dev` → `npx vite`
+  - `yarn build` → `npx tsc -b && npx vite build`
+  - `yarn preview` → `npx vite preview`
