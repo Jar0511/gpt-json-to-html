@@ -15,6 +15,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
     │  └─ some-chat.html
     ├─ style/
     │  └─ main.css
+    ├─ js/
+    │  └─ script.js
     └─ images/
        └─ some-image.png
     ```
