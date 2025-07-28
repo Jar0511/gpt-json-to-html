@@ -7,12 +7,12 @@ function App() {
 	const { t } = useTranslation();
 
 	return (
-		<div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 p-4 transition-colors">
-			<div className="absolute top-4 right-4 flex gap-2">
+		<div className="h-screen bg-gradient-to-br from-purple-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 transition-colors overflow-hidden">
+			<div className="absolute top-4 right-4 flex gap-2 z-10">
 				<ThemeSwitcher />
 				<LanguageSwitcher />
 			</div>
-			<div className="flex items-center justify-center min-h-screen">
+			<div className="h-full flex items-center justify-center p-4">
 				<div className="w-full max-w-2xl">
 					<div className="text-center mb-12">
 						<h1 className="text-5xl font-bold text-gray-800 dark:text-gray-100 mb-4 tracking-tight">
