@@ -7,7 +7,17 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 이 프로젝트는 GPT 데이터 내보내기로 가져온 데이터를 아름다운 HTML로 변환하는 기능을 제공합니다.
 
 - 원페이지, 서버리스 웹서비스를 위한 프론트엔드 소스코드입니다: 즉, 파일을 컨트롤하는 부분도 모두 클라이언트 사이드에서 수행합니다.
-- JSON 대화 파일을 읽어 HTML로 변환합니다.
+- JSON 대화 파일을 읽어 HTML로 변환한 후, zip으로 압축합니다.
+  - 변환된 결과물 파일 구조
+    ```
+    │  index.html
+    ├─ pages/
+    │  └─ some-chat.html
+    ├─ style/
+    │  └─ main.css
+    └─ images/
+       └─ some-image.png
+    ```
 
 ## Development Commands
 
@@ -78,3 +88,7 @@ This is a React + TypeScript + Vite project with the following technologies:
   - `yarn dev` → `npx vite`
   - `yarn build` → `npx tsc -b && npx vite build`
   - `yarn preview` → `npx vite preview`
+
+## Import Guidelines
+
+- src/ 아래 파일을 import 할 때는 '@/'로 시작하는 절대 경로로 작성하십시오
