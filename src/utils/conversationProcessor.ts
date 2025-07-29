@@ -1,9 +1,4 @@
-import {
-	Conversation,
-	SidebarItem,
-	SidebarItemBase,
-	SidebarProject,
-} from '@/types/conversation';
+import { Conversation, SidebarItem } from '@/types/conversation';
 
 // conversations 배열을 update_time 기준으로 정렬
 export function sortConversationsByUpdateTime(
