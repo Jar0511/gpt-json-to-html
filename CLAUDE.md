@@ -14,9 +14,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
     ├─ pages/
     │  └─ some-chat.html
     ├─ style/
-    │  └─ main.css
+    │  ├─ main.css
+    │  └─ github-dark.min.css
     ├─ js/
-    │  └─ script.js
+    │  ├─ script.js
+    │  ├─ highlight.min.js
+    │  └─ languages/
     └─ images/
        └─ some-image.png
     ```

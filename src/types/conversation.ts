@@ -92,7 +92,7 @@ type OutputContent = {
 };
 
 type CodeContent = {
-	contet_type: 'code';
+	content_type: 'code';
 	language: 'json' | 'unknown';
 	response_format_name: null;
 	text: string;
@@ -128,7 +128,7 @@ type ContentType =
 	| OutputContent;
 type RoleMessage = SystemMessage | AssistantMessage | UserMessage | ToolMessage;
 
-type MapItem = {
+export type MapItem = {
 	id: string;
 	message:
 		| null
@@ -150,7 +150,7 @@ export interface Conversation {
 	title: string | null;
 	update_time: number;
 	conversation_template_id?: string | null;
-	mapping?: { 'client-created-root': MapItem; [key: string]: MapItem };
+	mapping?: { [key: string]: MapItem };
 	[key: string]: any;
 }
 

@@ -2,14 +2,30 @@ import {
 	Conversation,
 	SidebarItem,
 	isSidebarProject,
+	MapItem,
 } from '@/types/conversation';
 import JSZip from 'jszip';
+import {
+	convertMappingToOrderedArray,
+	filterMessagesFromOrderedArray,
+} from '@/utils/conversationMapper';
+import { parseMarkdown } from '@/utils/markdownParser';
 
 // Import template files as strings
 import indexHtmlTemplate from '@/templates/index.html?raw';
 import pageHtmlTemplate from '@/templates/page.html?raw';
 import mainCssTemplate from '@/templates/main.css?raw';
 import scriptJsTemplate from '@/templates/script.js?raw';
+
+// Import highlight.js files
+import highlightJsTemplate from '@/templates/highlight.min.js?raw';
+import githubDarkCssTemplate from '@/templates/github-dark.min.css?raw';
+
+// Import all language files
+const languagesModules = import.meta.glob('@/templates/languages/**/*', {
+	as: 'raw',
+	eager: true,
+});
 
 /**
  * 사이드바 HTML 생성
@@ -88,6 +104,127 @@ function escapeHtml(unsafe: string): string {
 }
 
 /**
+ * Generate HTML for a single message
+ */
+function generateMessageHtml(
+	item: MapItem,
+	imageFilenames: string[] = []
+): string {
+	if (!item.message) return '';
+
+	const message = item.message;
+	const role = message.author.role;
+	const roleClass = `message-${role}`;
+	let contentHtml = '';
+
+	// Handle different content types
+	const content = message.content;
+
+	switch (content.content_type) {
+		case 'text':
+			let texts = content.parts.join('\n');
+			if (texts.length === 0) {
+				return '';
+			}
+
+			// Join parts and convert markdown to HTML
+			contentHtml = parseMarkdown(texts);
+			break;
+
+		case 'code':
+			// Skip code content type - return empty string
+			return '';
+
+		case 'multimodal_text':
+			contentHtml = '<div class="message-images">';
+			content.parts.forEach((part) => {
+				if (part.asset_pointer) {
+					// Extract filename prefix from asset_pointer
+					const filenamePrefix = part.asset_pointer.split('/').pop() || 'image';
+
+					// Find the full filename that starts with this prefix
+					const fullFilename = imageFilenames.find((name) =>
+						name.startsWith(filenamePrefix)
+					);
+
+					if (fullFilename) {
+						contentHtml += `<img src="../images/${fullFilename}" alt="Generated image" loading="lazy" />`;
+					}
+				}
+			});
+			contentHtml += '</div>';
+			break;
+
+		case 'execution_output':
+			// Skip execution_output content type - return empty string
+			return '';
+
+		case 'reasoning_recap':
+			contentHtml = `<div class="reasoning-content">${parseMarkdown(content.content)}</div>`;
+			break;
+
+		default:
+			// Skip unknown content types - return empty string
+			return '';
+	}
+
+	// Get author name (for tools)
+	const authorName = role === 'tool' ? (message.author as any).name : role;
+	const displayName = getDisplayName(authorName);
+
+	return `
+		<div class="message ${roleClass}">
+			<div class="message-header">
+				<span class="message-role">${escapeHtml(displayName)}</span>
+			</div>
+			<div class="message-content">
+				${contentHtml}
+			</div>
+		</div>
+	`;
+}
+
+/**
+ * Get display name for message author
+ */
+function getDisplayName(role: string): string {
+	const displayNames: { [key: string]: string } = {
+		user: 'You',
+		assistant: 'ChatGPT',
+		system: 'System',
+		tool: 'Tool',
+	};
+	return displayNames[role] || role;
+}
+
+/**
+ * Generate conversation content HTML
+ */
+function generateConversationContent(
+	conversation: Conversation,
+	imageFilenames: string[] = []
+): string {
+	if (!conversation.mapping) {
+		return '<p class="no-content">대화 내용이 없습니다.</p>';
+	}
+
+	// Convert mapping to ordered array
+	const orderedItems = convertMappingToOrderedArray(conversation.mapping);
+	const messagesWithContent = filterMessagesFromOrderedArray(orderedItems);
+
+	if (messagesWithContent.length === 0) {
+		return '<p class="no-content">대화 내용이 없습니다.</p>';
+	}
+
+	// Generate HTML for each message
+	const messagesHtml = messagesWithContent
+		.map((item) => generateMessageHtml(item, imageFilenames))
+		.join('\n');
+
+	return `<div class="conversation-messages">${messagesHtml}</div>`;
+}
+
+/**
  * Generate index.html with sidebar
  */
 function generateIndexHtml(
@@ -104,7 +241,8 @@ function generateIndexHtml(
 function generateConversationPageHtml(
 	template: string,
 	conversation: Conversation,
-	sidebarItems: SidebarItem[]
+	sidebarItems: SidebarItem[],
+	imageFilenames: string[] = []
 ): string {
 	const sidebarHtml = generateSidebarHTML(sidebarItems, false, conversation.id);
 	const title = conversation.title || 'Untitled Conversation';
@@ -120,15 +258,18 @@ function generateConversationPageHtml(
 		).length;
 	}
 
+	// Generate conversation content
+	const conversationContent = generateConversationContent(
+		conversation,
+		imageFilenames
+	);
+
 	let html = template
 		.replace(/{{SIDEBAR_HTML}}/g, sidebarHtml)
 		.replace(/{{CONVERSATION_TITLE}}/g, escapeHtml(title))
 		.replace(/{{CONVERSATION_DATE}}/g, date)
 		.replace(/{{MESSAGE_COUNT}}/g, messageCount.toString())
-		.replace(
-			/{{CONVERSATION_CONTENT}}/g,
-			'<p>대화 내용은 나중에 구현될 예정입니다.</p>'
-		);
+		.replace(/{{CONVERSATION_CONTENT}}/g, conversationContent);
 
 	return html;
 }
@@ -147,19 +288,35 @@ export async function generateHtmlExport(
 	const indexHtml = generateIndexHtml(indexHtmlTemplate, sidebarItems);
 	zip.file('index.html', indexHtml);
 
-	// Generate style/main.css
-	zip.folder('style')?.file('main.css', mainCssTemplate);
+	// Generate style/main.css and github-dark.min.css
+	const styleFolder = zip.folder('style');
+	styleFolder?.file('main.css', mainCssTemplate);
+	styleFolder?.file('github-dark.min.css', githubDarkCssTemplate);
 
-	// Generate js/script.js
-	zip.folder('js')?.file('script.js', scriptJsTemplate);
+	// Generate js files
+	const jsFolder = zip.folder('js');
+	jsFolder?.file('script.js', scriptJsTemplate);
+	jsFolder?.file('highlight.min.js', highlightJsTemplate);
+
+	// Create languages subdirectory and add all language files
+	const languagesSubfolder = jsFolder?.folder('languages');
+	for (const [path, content] of Object.entries(languagesModules)) {
+		const filename = path.split('/').pop() || '';
+		if (filename && typeof content === 'string') {
+			languagesSubfolder?.file(filename, content);
+		}
+	}
 
 	// Generate pages/*.html for each conversation
 	const pagesFolder = zip.folder('pages');
+	const imageFilenames = imageFiles ? Object.keys(imageFiles) : [];
+
 	conversations.forEach((conversation) => {
 		const pageHtml = generateConversationPageHtml(
 			pageHtmlTemplate,
 			conversation,
-			sidebarItems
+			sidebarItems,
+			imageFilenames
 		);
 		pagesFolder?.file(`${conversation.id}.html`, pageHtml);
 	});
