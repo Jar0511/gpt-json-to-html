@@ -85,7 +85,7 @@ This is a React + TypeScript + Vite project with the following technologies:
 
 ## Development Guidelines
 
-- Windows 11 환경에서는 yarn 명령어 대신 npx를 사용하여 format 스크립트를 실행하세요:
+- yarn 명령어 대신 npx를 사용하여 format 스크립트를 실행하세요:
   - `yarn format` → `npx prettier --write . --cache --cache-location ./.cache/.prettier-cache`
 - 그 외의 스크립트는 직접 실행하지 마세요
 
