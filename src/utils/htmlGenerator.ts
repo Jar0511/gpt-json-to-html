@@ -214,7 +214,11 @@ function generateMessageHtml(
 					.filter((ref) => !!ref)
 					.sort((a, b) => b.start_idx - a.start_idx)
 					.forEach((ref) => {
-						if ('type' in ref && ref.type === 'grouped_webpages') {
+						if ('type' in ref && ref.type === 'hidden') {
+							const escapedMatchedText = escapeHtml(ref.matched_text);
+							contentHtml = contentHtml.replace(escapedMatchedText, '');
+						}
+						if ('type' in ref && ref.type.startsWith('grouped_webpages')) {
 							// Use items if available, otherwise use fallback_items
 							const itemsToUse =
 								'items' in ref &&

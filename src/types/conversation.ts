@@ -43,10 +43,10 @@ type AssistantMessage = {
 			start_idx: number;
 			end_idx: number;
 			safe_urls: string[];
-			refs: [];
+			refs: string[];
 			alt: string | null;
-			prompt_text: null;
-		} & (TextAttrRef | TextLinkRef))[];
+			prompt_text: string | null;
+		} & (TextAttrRef | TextLinkRef | TextHideRef))[];
 	};
 };
 
@@ -89,7 +89,7 @@ type TextAttrRef = {
 	attributable_index: string;
 };
 type TextLinkRef = {
-	type: 'grouped_webpages';
+	type: 'grouped_webpages' | 'grouped_webpages_model_predicted_fallback';
 	items: {
 		title: string;
 		url: string;
@@ -123,6 +123,10 @@ type TextLinkRef = {
 			ref_index: number;
 		}[];
 	}[];
+};
+
+type TextHideRef = {
+	type: 'hidden';
 };
 
 type TextContent = {
