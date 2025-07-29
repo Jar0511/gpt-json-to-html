@@ -248,58 +248,27 @@ body {
 	margin-bottom: 20px;
 	padding: 20px;
 	border-radius: 8px;
-	border: 1px solid #e0e0e0;
 }
 
 .message-user {
-	background-color: #f0f7ff;
-	border-color: #cce5ff;
+	background-color: #f4f4f4;
 }
 
 .message-assistant {
-	background-color: #f8f9fa;
-	border-color: #e0e0e0;
 }
 
 .message-system {
 	background-color: #fff3cd;
-	border-color: #ffeaa7;
 }
 
 .message-tool {
 	background-color: #e8f5e9;
-	border-color: #c8e6c9;
-}
-
-.message-header {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	margin-bottom: 10px;
-	padding-bottom: 10px;
-	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .message-role {
 	font-weight: 600;
 	font-size: 0.95rem;
 	text-transform: capitalize;
-}
-
-.message-user .message-role {
-	color: #0066cc;
-}
-
-.message-assistant .message-role {
-	color: #16a34a;
-}
-
-.message-system .message-role {
-	color: #d97706;
-}
-
-.message-tool .message-role {
-	color: #059669;
 }
 
 .message-content {

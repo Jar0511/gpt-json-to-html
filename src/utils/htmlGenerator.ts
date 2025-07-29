@@ -321,33 +321,13 @@ function generateMessageHtml(
 			return '';
 	}
 
-	// Get author name (for tools)
-	const authorName = role === 'tool' ? (message.author as any).name : role;
-	const displayName = getDisplayName(authorName);
-
 	return `
 		<div class="message ${roleClass}">
-			<div class="message-header">
-				<span class="message-role">${escapeHtml(displayName)}</span>
-			</div>
 			<div class="message-content">
 				${contentHtml}
 			</div>
 		</div>
 	`;
-}
-
-/**
- * Get display name for message author
- */
-function getDisplayName(role: string): string {
-	const displayNames: { [key: string]: string } = {
-		user: 'You',
-		assistant: 'ChatGPT',
-		system: 'System',
-		tool: 'Tool',
-	};
-	return displayNames[role] || role;
 }
 
 /**
