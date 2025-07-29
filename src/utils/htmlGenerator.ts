@@ -52,6 +52,15 @@ import KaTeX_Size2_Regular from '@/templates/fonts/KaTeX_Size2-Regular.woff2?url
 import KaTeX_Size3_Regular from '@/templates/fonts/KaTeX_Size3-Regular.woff2?url';
 import KaTeX_Size4_Regular from '@/templates/fonts/KaTeX_Size4-Regular.woff2?url';
 import KaTeX_Typewriter_Regular from '@/templates/fonts/KaTeX_Typewriter-Regular.woff2?url';
+import Pretendard_Thin from '@/templates/fonts/Pretendard-Thin.woff2?url';
+import Pretendard_ExtraLight from '@/templates/fonts/Pretendard-ExtraLight.woff2?url';
+import Pretendard_Light from '@/templates/fonts/Pretendard-Light.woff2?url';
+import Pretendard_Regular from '@/templates/fonts/Pretendard-Regular.woff2?url';
+import Pretendard_SemiBold from '@/templates/fonts/Pretendard-SemiBold.woff2?url';
+import Pretendard_Medium from '@/templates/fonts/Pretendard-Medium.woff2?url';
+import Pretendard_Bold from '@/templates/fonts/Pretendard-Bold.woff2?url';
+import Pretendard_ExtraBold from '@/templates/fonts/Pretendard-ExtraBold.woff2?url';
+import Pretendard_Black from '@/templates/fonts/Pretendard-Black.woff2?url';
 
 const fontUrls: { [key: string]: string } = {
 	'KaTeX_AMS-Regular.woff2': KaTeX_AMS_Regular,
@@ -74,6 +83,15 @@ const fontUrls: { [key: string]: string } = {
 	'KaTeX_Size3-Regular.woff2': KaTeX_Size3_Regular,
 	'KaTeX_Size4-Regular.woff2': KaTeX_Size4_Regular,
 	'KaTeX_Typewriter-Regular.woff2': KaTeX_Typewriter_Regular,
+	'Pretendard-Thin.woff2': Pretendard_Thin,
+	'Pretendard-ExtraLight.woff2': Pretendard_ExtraLight,
+	'Pretendard-Light.woff2': Pretendard_Light,
+	'Pretendard-Regular.woff2': Pretendard_Regular,
+	'Pretendard-Medium.woff2': Pretendard_Medium,
+	'Pretendard-SemiBold.woff2': Pretendard_SemiBold,
+	'Pretendard-Bold.woff2': Pretendard_Bold,
+	'Pretendard-ExtraBold.woff2': Pretendard_ExtraBold,
+	'Pretendard-Black.woff2': Pretendard_Black,
 };
 
 /**
