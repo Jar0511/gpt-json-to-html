@@ -41,16 +41,16 @@ export function parseMarkdown(markdown: string): string {
 		try {
 			const rendered = katex.renderToString(math.trim(), {
 				displayMode: true,
-				throwOnError: false
+				throwOnError: false,
 			});
 			latexBlocks.push({
 				placeholder,
-				content: `<div class="katex-display">${rendered}</div>`
+				content: `<div class="katex-display">${rendered}</div>`,
 			});
 		} catch (e) {
 			latexBlocks.push({
 				placeholder,
-				content: `<div class="katex-error">LaTeX Error: ${escapeHtml(math)}</div>`
+				content: `<div class="katex-error">LaTeX Error: ${escapeHtml(math)}</div>`,
 			});
 		}
 		return placeholder;
@@ -62,16 +62,16 @@ export function parseMarkdown(markdown: string): string {
 		try {
 			const rendered = katex.renderToString(math, {
 				displayMode: false,
-				throwOnError: false
+				throwOnError: false,
 			});
 			latexBlocks.push({
 				placeholder,
-				content: rendered
+				content: rendered,
 			});
 		} catch (e) {
 			latexBlocks.push({
 				placeholder,
-				content: `<span class="katex-error">$${escapeHtml(math)}$</span>`
+				content: `<span class="katex-error">$${escapeHtml(math)}$</span>`,
 			});
 		}
 		return placeholder;
@@ -83,16 +83,16 @@ export function parseMarkdown(markdown: string): string {
 		try {
 			const rendered = katex.renderToString(math, {
 				displayMode: false,
-				throwOnError: false
+				throwOnError: false,
 			});
 			latexBlocks.push({
 				placeholder,
-				content: rendered
+				content: rendered,
 			});
 		} catch (e) {
 			latexBlocks.push({
 				placeholder,
-				content: `<span class="katex-error">\\(${escapeHtml(math)}\\)</span>`
+				content: `<span class="katex-error">\\(${escapeHtml(math)}\\)</span>`,
 			});
 		}
 		return placeholder;
