@@ -139,16 +139,16 @@ export function parseMarkdown(markdown: string): string {
 	html = html.replace(/\*([^*]+)\*/g, '<em>$1</em>');
 	html = html.replace(/_([^_]+)_/g, '<em>$1</em>');
 
+	// Images - process before links to avoid conflicts
+	html = html.replace(
+		/!\[([^\]]*)\]\(([^)]+)\)/g,
+		'<img src="$2" alt="$1" loading="lazy" />'
+	);
+
 	// Links
 	html = html.replace(
 		/\[([^\]]+)\]\(([^)]+)\)/g,
 		'<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>'
-	);
-
-	// Images
-	html = html.replace(
-		/!\[([^\]]*)\]\(([^)]+)\)/g,
-		'<img src="$2" alt="$1" loading="lazy" />'
 	);
 
 	// Unordered lists

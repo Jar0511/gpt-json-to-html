@@ -252,6 +252,7 @@ function generateMessageHtml(
 								if (links) {
 									// Replace the escaped matched text in HTML with links
 									const escapedMatchedText = escapeHtml(ref.matched_text);
+									// Simple string replacement - should work fine since matched_text is unique
 									contentHtml = contentHtml.replace(escapedMatchedText, links);
 								}
 							}
