@@ -9,29 +9,36 @@ export function convertMappingToOrderedArray(mapping: {
 	[key: string]: MapItem;
 }): MapItem[] {
 	const orderedItems: MapItem[] = [];
+	const visited = new Set<string>();
 
 	// Find the root item (parent is null)
-	let currentItem: MapItem | undefined = Object.values(mapping).find(
-		(item) => item.parent === null
-	);
+	const rootItem = Object.values(mapping).find((item) => item.parent === null);
 
-	if (!currentItem) {
+	if (!rootItem) {
 		console.warn('No root item found in conversation mapping');
 		return orderedItems;
 	}
 
-	// Follow the chain of children
-	while (currentItem) {
-		orderedItems.push(currentItem);
+	// Recursive function to traverse all branches
+	function traverseItem(item: MapItem) {
+		// Avoid infinite loops
+		if (visited.has(item.id)) {
+			return;
+		}
 
-		// Find next item
-		if (currentItem.children.length > 0) {
-			const nextId: string = currentItem.children[0];
-			currentItem = mapping[nextId];
-		} else {
-			currentItem = undefined;
+		visited.add(item.id);
+		orderedItems.push(item);
+
+		// Process all children
+		for (const childId of item.children) {
+			if (childId in mapping) {
+				traverseItem(mapping[childId]);
+			}
 		}
 	}
+
+	// Start traversal from root
+	traverseItem(rootItem);
 
 	return orderedItems;
 }
