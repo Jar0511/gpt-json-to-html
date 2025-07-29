@@ -85,11 +85,48 @@ export function useFileUploadForm() {
 				);
 				console.log('Sidebar items created:', sidebarItems.length);
 
+				// 이미지 파일 추출 (PNG, JPG, WEBP)
+				setLoadingStep('이미지 파일 추출 중...');
+				const imageFiles: { [filename: string]: ArrayBuffer } = {};
+
+				// zip 내의 모든 파일을 순회하며 이미지 파일 찾기
+				const filePromises: Promise<void>[] = [];
+				const imageExtensions = ['.png', '.jpg', '.jpeg', '.webp'];
+
+				zipContent.forEach((relativePath, file) => {
+					// 이미지 파일인지 확인 (대소문자 구분 없이)
+					const lowerPath = relativePath.toLowerCase();
+					const isImage = imageExtensions.some((ext) =>
+						lowerPath.endsWith(ext)
+					);
+
+					if (isImage && !file.dir) {
+						// 파일명만 추출 (경로 제거)
+						const filename = relativePath.split('/').pop() || relativePath;
+
+						// 파일을 ArrayBuffer로 읽기
+						const promise = file.async('arraybuffer').then((content) => {
+							imageFiles[filename] = content;
+							console.log(`Found image file: ${relativePath} -> ${filename}`);
+						});
+
+						filePromises.push(promise);
+					}
+				});
+
+				// 모든 이미지 파일 읽기 완료 대기
+				await Promise.all(filePromises);
+
+				console.log(
+					`Total image files found: ${Object.keys(imageFiles).length}`
+				);
+
 				// HTML 생성 및 ZIP 패키징
 				setLoadingStep(t('loading.generatingHtml'));
 				const htmlZipBlob = await generateHtmlExport(
 					sortedConversations,
-					sidebarItems
+					sidebarItems,
+					imageFiles
 				);
 
 				// 다운로드 트리거

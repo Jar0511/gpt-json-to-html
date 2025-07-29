@@ -138,7 +138,8 @@ function generateConversationPageHtml(
  */
 export async function generateHtmlExport(
 	conversations: Conversation[],
-	sidebarItems: SidebarItem[]
+	sidebarItems: SidebarItem[],
+	imageFiles?: { [filename: string]: ArrayBuffer }
 ): Promise<Blob> {
 	const zip = new JSZip();
 
@@ -162,6 +163,19 @@ export async function generateHtmlExport(
 		);
 		pagesFolder?.file(`${conversation.id}.html`, pageHtml);
 	});
+
+	// Add images if provided
+	if (imageFiles && Object.keys(imageFiles).length > 0) {
+		const imagesFolder = zip.folder('images');
+
+		// Add each image file to the images folder
+		for (const [filename, content] of Object.entries(imageFiles)) {
+			imagesFolder?.file(filename, content);
+			console.log(`Added image to zip: images/${filename}`);
+		}
+
+		console.log(`Total images added to zip: ${Object.keys(imageFiles).length}`);
+	}
 
 	// Generate zip file
 	return await zip.generateAsync({ type: 'blob' });
