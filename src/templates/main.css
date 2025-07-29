@@ -240,7 +240,6 @@ body {
 .conversation-messages {
 	display: flex;
 	flex-direction: column;
-	gap: 20px;
 }
 
 /* Message styles */
@@ -251,7 +250,7 @@ body {
 }
 
 .message-user {
-	background-color: #f4f4f4;
+	background-color: #dfdfdf;
 }
 
 .message-assistant {
@@ -262,7 +261,13 @@ body {
 }
 
 .message-tool {
-	background-color: #e8f5e9;
+	margin-bottom: 0 !important;
+}
+
+.message-tool * {
+	color: #6d9b70;
+	font-style: italic;
+	margin-bottom: 0 !important;
 }
 
 .message-role {
@@ -402,12 +407,9 @@ body {
 }
 
 /* Reasoning content */
-.reasoning-content {
-	background-color: #f0f9ff;
-	padding: 15px;
-	border-radius: 6px;
-	border: 1px solid #bae6fd;
-	margin: 10px 0;
+.reasoning-content p {
+	font-style: italic;
+	color: #666;
 }
 
 /* No content message */
