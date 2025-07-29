@@ -42,7 +42,7 @@ export function parseMarkdown(markdown: string): string {
 	// Inline code - use placeholders to protect from escaping
 	const inlineCodes: { placeholder: string; content: string }[] = [];
 	let inlineCodeIndex = 0;
-	
+
 	html = html.replace(/`([^`]+)`/g, (_, code) => {
 		const placeholder = `%%INLINE%CODE%${inlineCodeIndex++}%%`;
 		inlineCodes.push({
@@ -211,7 +211,7 @@ export function parseMarkdown(markdown: string): string {
 	codeBlocks.forEach(({ placeholder, content }) => {
 		html = html.replace(placeholder, content);
 	});
-	
+
 	// Restore inline codes
 	inlineCodes.forEach(({ placeholder, content }) => {
 		html = html.replace(placeholder, content);
@@ -238,11 +238,7 @@ export function parseMarkdownWithOptions(
 		codeHighlight?: boolean;
 	} = {}
 ): string {
-	const {
-		sanitize = true,
-		linkTarget = '_blank',
-		codeHighlight = false,
-	} = options;
+	const { linkTarget = '_blank', codeHighlight = false } = options;
 
 	let html = parseMarkdown(markdown);
 

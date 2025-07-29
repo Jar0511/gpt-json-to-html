@@ -51,7 +51,7 @@ export function generateSidebarHTML(
 	if (projects.length > 0) {
 		html += '\t<li class="section-header">프로젝트</li>\n';
 
-		projects.forEach((project, index) => {
+		projects.forEach((project) => {
 			if (isSidebarProject(project)) {
 				html += '\t<li class="conversation-item project-item">\n';
 				html += '\t\t<details>\n';
