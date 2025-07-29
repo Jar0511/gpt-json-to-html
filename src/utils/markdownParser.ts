@@ -3,6 +3,8 @@
  * Converts markdown text to HTML without external dependencies
  */
 
+import katex from 'katex';
+
 /**
  * Escape HTML special characters
  */
@@ -28,6 +30,73 @@ export function parseMarkdown(markdown: string): string {
 	// First, handle code blocks (to prevent other parsing inside them)
 	const codeBlocks: { placeholder: string; content: string }[] = [];
 	let codeBlockIndex = 0;
+
+	// LaTeX blocks first (to prevent other parsing inside them)
+	const latexBlocks: { placeholder: string; content: string }[] = [];
+	let latexBlockIndex = 0;
+
+	// Display math blocks \[...\]
+	html = html.replace(/\\\[([\s\S]*?)\\\]/g, (_, math) => {
+		const placeholder = `%%LATEX%BLOCK%${latexBlockIndex++}%%`;
+		try {
+			const rendered = katex.renderToString(math.trim(), {
+				displayMode: true,
+				throwOnError: false
+			});
+			latexBlocks.push({
+				placeholder,
+				content: `<div class="katex-display">${rendered}</div>`
+			});
+		} catch (e) {
+			latexBlocks.push({
+				placeholder,
+				content: `<div class="katex-error">LaTeX Error: ${escapeHtml(math)}</div>`
+			});
+		}
+		return placeholder;
+	});
+
+	// Inline math $...$
+	html = html.replace(/\$([^\$\n]+)\$/g, (_, math) => {
+		const placeholder = `%%LATEX%INLINE%${latexBlockIndex++}%%`;
+		try {
+			const rendered = katex.renderToString(math, {
+				displayMode: false,
+				throwOnError: false
+			});
+			latexBlocks.push({
+				placeholder,
+				content: rendered
+			});
+		} catch (e) {
+			latexBlocks.push({
+				placeholder,
+				content: `<span class="katex-error">$${escapeHtml(math)}$</span>`
+			});
+		}
+		return placeholder;
+	});
+
+	// Inline math \(...\)
+	html = html.replace(/\\\(([^\n]*?)\\\)/g, (_, math) => {
+		const placeholder = `%%LATEX%INLINE%${latexBlockIndex++}%%`;
+		try {
+			const rendered = katex.renderToString(math, {
+				displayMode: false,
+				throwOnError: false
+			});
+			latexBlocks.push({
+				placeholder,
+				content: rendered
+			});
+		} catch (e) {
+			latexBlocks.push({
+				placeholder,
+				content: `<span class="katex-error">\\(${escapeHtml(math)}\\)</span>`
+			});
+		}
+		return placeholder;
+	});
 
 	// Fenced code blocks (```)
 	html = html.replace(/```(\w*)\n([\s\S]*?)```/g, (_, lang, code) => {
@@ -206,6 +275,11 @@ export function parseMarkdown(markdown: string): string {
 	}
 
 	html = processedLines.join('\n');
+
+	// Restore LaTeX blocks first
+	latexBlocks.forEach(({ placeholder, content }) => {
+		html = html.replace(placeholder, content);
+	});
 
 	// Restore code blocks
 	codeBlocks.forEach(({ placeholder, content }) => {

@@ -1,8 +1,106 @@
+@font-face {
+	font-family: 'Pretendard';
+	font-weight: 900;
+	font-display: swap;
+	src:
+		local('Pretendard Black'),
+		url(./fonts/Pretendard-Black.woff2) format('woff2');
+}
+
+@font-face {
+	font-family: 'Pretendard';
+	font-weight: 800;
+	font-display: swap;
+	src:
+		local('Pretendard ExtraBold'),
+		url(./fonts/Pretendard-ExtraBold.woff2) format('woff2');
+}
+
+@font-face {
+	font-family: 'Pretendard';
+	font-weight: 700;
+	font-display: swap;
+	src:
+		local('Pretendard Bold'),
+		url(./fonts/Pretendard-Bold.woff2) format('woff2');
+}
+
+@font-face {
+	font-family: 'Pretendard';
+	font-weight: 600;
+	font-display: swap;
+	src:
+		local('Pretendard SemiBold'),
+		url(./fonts/Pretendard-SemiBold.woff2) format('woff2');
+}
+
+@font-face {
+	font-family: 'Pretendard';
+	font-weight: 500;
+	font-display: swap;
+	src:
+		local('Pretendard Medium'),
+		url(./fonts/Pretendard-Medium.woff2) format('woff2');
+}
+
+@font-face {
+	font-family: 'Pretendard';
+	font-weight: 400;
+	font-display: swap;
+	src:
+		local('Pretendard Regular'),
+		url(./fonts/Pretendard-Regular.woff2) format('woff2');
+}
+
+@font-face {
+	font-family: 'Pretendard';
+	font-weight: 300;
+	font-display: swap;
+	src:
+		local('Pretendard Light'),
+		url(./fonts/Pretendard-Light.woff2) format('woff2');
+}
+
+@font-face {
+	font-family: 'Pretendard';
+	font-weight: 200;
+	font-display: swap;
+	src:
+		local('Pretendard ExtraLight'),
+		url(./fonts/Pretendard-ExtraLight.woff2) format('woff2');
+}
+
+@font-face {
+	font-family: 'Pretendard';
+	font-weight: 100;
+	font-display: swap;
+	src:
+		local('Pretendard Thin'),
+		url(./fonts/Pretendard-Thin.woff2) format('woff2');
+}
+
 /* Reset and base styles */
 * {
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
+	scrollbar-color: #ececec transparent;
+	font-family:
+		'Pretendard Variable',
+		Pretendard,
+		-apple-system,
+		BlinkMacSystemFont,
+		system-ui,
+		Roboto,
+		'Helvetica Neue',
+		'Segoe UI',
+		'Apple SD Gothic Neo',
+		'Noto Sans KR',
+		'Malgun Gothic',
+		'Apple Color Emoji',
+		'Segoe UI Emoji',
+		'Segoe UI Symbol',
+		sans-serif;
 }
 
 html,
@@ -24,10 +122,11 @@ body {
 	width: 100%;
 }
 
-/* Sidebar navigation - 20% width (2 in 2:8 ratio) */
+/* Sidebar navigation */
 .sidebar {
-	flex: 2;
-	background-color: #fff;
+	width: 280px;
+	flex: none;
+	background-color: #f9f9f9;
 	border-right: 1px solid #e0e0e0;
 	display: flex;
 	flex-direction: column;
@@ -38,7 +137,6 @@ body {
 .sidebar-header {
 	padding: 20px;
 	border-bottom: 1px solid #e0e0e0;
-	background-color: #f8f9fa;
 }
 
 .sidebar-header h1 {
@@ -53,9 +151,9 @@ body {
 	padding: 10px 0;
 }
 
-/* Main content area - 80% width (8 in 2:8 ratio) */
+/* Main content area */
 .content {
-	flex: 8;
+	flex: 1;
 	display: flex;
 	flex-direction: column;
 	height: 100vh;
@@ -88,25 +186,25 @@ body {
 }
 
 .conversation-item {
-	border-bottom: 1px solid #f0f0f0;
+	padding: 4px 8px;
 }
 
 .conversation-item a {
 	display: block;
-	padding: 15px 20px;
+	padding: 12px 18px;
 	text-decoration: none;
 	color: #333;
 	transition: background-color 0.2s;
+	border-radius: 10px;
+	font-size: 0.925rem;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
-.conversation-item:hover a,
+.conversation-item:hover > a,
 .conversation-item.active a {
-	background-color: #f0f7ff;
-}
-
-.conversation-item.active a {
-	border-left: 3px solid #0066cc;
-	padding-left: 17px;
+	background-color: #efefef;
 }
 
 .conversation-title {
@@ -127,7 +225,7 @@ body {
 
 /* Conversation detail styles */
 .conversation-detail {
-	max-width: 800px;
+	max-width: 1280px;
 	margin: 0 auto;
 }
 
@@ -251,11 +349,11 @@ body {
 .message-content ul,
 .message-content ol {
 	margin-bottom: 1em;
-	padding-left: 2em;
 }
 
 .message-content li {
 	margin-bottom: 0.25em;
+	list-style: inside;
 }
 
 .message-content blockquote {
@@ -304,10 +402,6 @@ body {
 
 .message-content tr:nth-child(even) {
 	background-color: #f8f9fa;
-}
-
-.message-content tbody tr:hover {
-	background-color: #f0f7ff;
 }
 
 /* Image content */
@@ -398,13 +492,17 @@ body {
 
 .project-item summary {
 	display: block;
-	padding: 15px 20px;
+	padding: 12px 18px;
 	cursor: pointer;
 	user-select: none;
 	font-weight: 500;
 	color: #1a1a1a;
 	transition: background-color 0.2s;
 	list-style: none;
+	border-radius: 10px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 .project-item summary::-webkit-details-marker {
@@ -424,7 +522,7 @@ body {
 }
 
 .project-item summary:hover {
-	background-color: #f0f7ff;
+	background-color: #efefef;
 }
 
 /* 프로젝트 하위 아이템 스타일 */
@@ -432,40 +530,28 @@ body {
 	list-style: none;
 	padding: 0;
 	margin: 0;
-	background-color: #f8f9fa;
-}
-
-.child-item {
-	border-left: 20px solid transparent;
 }
 
 .child-item a {
 	display: block;
-	padding: 12px 20px;
+	padding: 12px 18px 12px 30px;
 	color: #333;
 	text-decoration: none;
 	font-size: 0.925rem;
 	transition: background-color 0.2s;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
-.child-item a:hover {
-	background-color: #e8f4ff;
+.child-item:hover a {
+	background-color: #efefef;
 }
 
 /* Current page highlighting */
-.highlight-current {
+.highlight-current a {
 	position: relative;
-	background-color: #e8f4ff !important;
-}
-
-.highlight-current::before {
-	content: '';
-	position: absolute;
-	left: 0;
-	top: 0;
-	bottom: 0;
-	width: 3px;
-	background-color: #0066cc;
+	background-color: #eaeaea !important;
 }
 
 /* Scrollbar styles */

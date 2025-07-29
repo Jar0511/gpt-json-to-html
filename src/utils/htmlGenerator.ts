@@ -21,11 +21,60 @@ import scriptJsTemplate from '@/templates/script.js?raw';
 import highlightJsTemplate from '@/templates/highlight.min.js?raw';
 import githubDarkCssTemplate from '@/templates/github-dark.min.css?raw';
 
+// Import KaTeX CSS
+import katexCssTemplate from '@/templates/katex.min.css?raw';
+
 // Import all language files
 const languagesModules = import.meta.glob('@/templates/languages/**/*', {
-	as: 'raw',
+	query: '?raw',
+	import: 'default',
 	eager: true,
 });
+
+// Import all font files as URLs
+import KaTeX_AMS_Regular from '@/templates/fonts/KaTeX_AMS-Regular.woff2?url';
+import KaTeX_Caligraphic_Bold from '@/templates/fonts/KaTeX_Caligraphic-Bold.woff2?url';
+import KaTeX_Caligraphic_Regular from '@/templates/fonts/KaTeX_Caligraphic-Regular.woff2?url';
+import KaTeX_Fraktur_Bold from '@/templates/fonts/KaTeX_Fraktur-Bold.woff2?url';
+import KaTeX_Fraktur_Regular from '@/templates/fonts/KaTeX_Fraktur-Regular.woff2?url';
+import KaTeX_Main_Bold from '@/templates/fonts/KaTeX_Main-Bold.woff2?url';
+import KaTeX_Main_BoldItalic from '@/templates/fonts/KaTeX_Main-BoldItalic.woff2?url';
+import KaTeX_Main_Italic from '@/templates/fonts/KaTeX_Main-Italic.woff2?url';
+import KaTeX_Main_Regular from '@/templates/fonts/KaTeX_Main-Regular.woff2?url';
+import KaTeX_Math_BoldItalic from '@/templates/fonts/KaTeX_Math-BoldItalic.woff2?url';
+import KaTeX_Math_Italic from '@/templates/fonts/KaTeX_Math-Italic.woff2?url';
+import KaTeX_SansSerif_Bold from '@/templates/fonts/KaTeX_SansSerif-Bold.woff2?url';
+import KaTeX_SansSerif_Italic from '@/templates/fonts/KaTeX_SansSerif-Italic.woff2?url';
+import KaTeX_SansSerif_Regular from '@/templates/fonts/KaTeX_SansSerif-Regular.woff2?url';
+import KaTeX_Script_Regular from '@/templates/fonts/KaTeX_Script-Regular.woff2?url';
+import KaTeX_Size1_Regular from '@/templates/fonts/KaTeX_Size1-Regular.woff2?url';
+import KaTeX_Size2_Regular from '@/templates/fonts/KaTeX_Size2-Regular.woff2?url';
+import KaTeX_Size3_Regular from '@/templates/fonts/KaTeX_Size3-Regular.woff2?url';
+import KaTeX_Size4_Regular from '@/templates/fonts/KaTeX_Size4-Regular.woff2?url';
+import KaTeX_Typewriter_Regular from '@/templates/fonts/KaTeX_Typewriter-Regular.woff2?url';
+
+const fontUrls: { [key: string]: string } = {
+	'KaTeX_AMS-Regular.woff2': KaTeX_AMS_Regular,
+	'KaTeX_Caligraphic-Bold.woff2': KaTeX_Caligraphic_Bold,
+	'KaTeX_Caligraphic-Regular.woff2': KaTeX_Caligraphic_Regular,
+	'KaTeX_Fraktur-Bold.woff2': KaTeX_Fraktur_Bold,
+	'KaTeX_Fraktur-Regular.woff2': KaTeX_Fraktur_Regular,
+	'KaTeX_Main-Bold.woff2': KaTeX_Main_Bold,
+	'KaTeX_Main-BoldItalic.woff2': KaTeX_Main_BoldItalic,
+	'KaTeX_Main-Italic.woff2': KaTeX_Main_Italic,
+	'KaTeX_Main-Regular.woff2': KaTeX_Main_Regular,
+	'KaTeX_Math-BoldItalic.woff2': KaTeX_Math_BoldItalic,
+	'KaTeX_Math-Italic.woff2': KaTeX_Math_Italic,
+	'KaTeX_SansSerif-Bold.woff2': KaTeX_SansSerif_Bold,
+	'KaTeX_SansSerif-Italic.woff2': KaTeX_SansSerif_Italic,
+	'KaTeX_SansSerif-Regular.woff2': KaTeX_SansSerif_Regular,
+	'KaTeX_Script-Regular.woff2': KaTeX_Script_Regular,
+	'KaTeX_Size1-Regular.woff2': KaTeX_Size1_Regular,
+	'KaTeX_Size2-Regular.woff2': KaTeX_Size2_Regular,
+	'KaTeX_Size3-Regular.woff2': KaTeX_Size3_Regular,
+	'KaTeX_Size4-Regular.woff2': KaTeX_Size4_Regular,
+	'KaTeX_Typewriter-Regular.woff2': KaTeX_Typewriter_Regular,
+};
 
 /**
  * 사이드바 HTML 생성
@@ -127,8 +176,70 @@ function generateMessageHtml(
 				return '';
 			}
 
-			// Join parts and convert markdown to HTML
+			// First convert markdown to HTML
 			contentHtml = parseMarkdown(texts);
+
+			// Then process content_references if they exist (for assistant messages)
+			if (
+				message.author.role === 'assistant' &&
+				'metadata' in message &&
+				message.metadata &&
+				'content_references' in message.metadata &&
+				message.metadata.content_references
+			) {
+				const references = Array.isArray(message.metadata.content_references)
+					? message.metadata.content_references
+					: [message.metadata.content_references];
+
+				// Sort references by start_idx in descending order to process from end to start
+				references
+					.filter((ref) => !!ref)
+					.sort((a, b) => b.start_idx - a.start_idx)
+					.forEach((ref) => {
+						if ('type' in ref && ref.type === 'grouped_webpages') {
+							// Use items if available, otherwise use fallback_items
+							const itemsToUse =
+								'items' in ref &&
+								Array.isArray(ref.items) &&
+								ref.items.length > 0
+									? ref.items
+									: 'fallback_items' in ref && Array.isArray(ref.fallback_items)
+										? ref.fallback_items
+										: [];
+
+							if (itemsToUse.length > 0) {
+								// Create links for all items
+								const links = itemsToUse
+									.filter(
+										(
+											item
+										): item is typeof item & { url: string; title: string } =>
+											item &&
+											'url' in item &&
+											'title' in item &&
+											typeof item.url === 'string' &&
+											typeof item.title === 'string'
+									)
+									.map((item, index) => {
+										// For items with attribution, use it; for fallback_items, use index
+										const linkText =
+											'attribution' in item &&
+											typeof item.attribution === 'string'
+												? escapeHtml(item.attribution)
+												: `[${index + 1}]`;
+										return `<a href="${item.url}" title="${escapeHtml(item.title)}" target="_blank" rel="noopener noreferrer">${linkText}</a>`;
+									})
+									.join(' ');
+
+								if (links) {
+									// Replace the escaped matched text in HTML with links
+									const escapedMatchedText = escapeHtml(ref.matched_text);
+									contentHtml = contentHtml.replace(escapedMatchedText, links);
+								}
+							}
+						}
+					});
+			}
 			break;
 
 		case 'code':
@@ -136,9 +247,16 @@ function generateMessageHtml(
 			return '';
 
 		case 'multimodal_text':
-			contentHtml = '<div class="message-images">';
+			// multimodal_text can contain both text strings and image objects
+			let textParts: string[] = [];
+			let imageParts: string[] = [];
+
 			content.parts.forEach((part) => {
-				if (part.asset_pointer) {
+				if (typeof part === 'string') {
+					// It's a text part
+					textParts.push(part);
+				} else if (part.asset_pointer) {
+					// It's an image part
 					// Extract filename prefix from asset_pointer
 					const filenamePrefix = part.asset_pointer.split('/').pop() || 'image';
 
@@ -148,11 +266,28 @@ function generateMessageHtml(
 					);
 
 					if (fullFilename) {
-						contentHtml += `<img src="../images/${fullFilename}" alt="Generated image" loading="lazy" />`;
+						imageParts.push(
+							`<img src="../images/${fullFilename}" alt="Generated image" loading="lazy" />`
+						);
 					}
 				}
 			});
-			contentHtml += '</div>';
+
+			// Combine text and images
+			contentHtml = '';
+
+			// Add text content if exists
+			if (textParts.length > 0) {
+				const combinedText = textParts.join('\n');
+				contentHtml += parseMarkdown(combinedText);
+			}
+
+			// Add images if exist
+			if (imageParts.length > 0) {
+				contentHtml += '<div class="message-images">';
+				contentHtml += imageParts.join('\n');
+				contentHtml += '</div>';
+			}
 			break;
 
 		case 'execution_output':
@@ -288,10 +423,23 @@ export async function generateHtmlExport(
 	const indexHtml = generateIndexHtml(indexHtmlTemplate, sidebarItems);
 	zip.file('index.html', indexHtml);
 
-	// Generate style/main.css and github-dark.min.css
+	// Generate style/main.css, github-dark.min.css, and katex.min.css
 	const styleFolder = zip.folder('style');
 	styleFolder?.file('main.css', mainCssTemplate);
 	styleFolder?.file('github-dark.min.css', githubDarkCssTemplate);
+	styleFolder?.file('katex.min.css', katexCssTemplate);
+
+	// Create fonts subdirectory and add all font files
+	const fontsSubfolder = styleFolder?.folder('fonts');
+	for (const [filename, url] of Object.entries(fontUrls)) {
+		try {
+			const response = await fetch(url);
+			const arrayBuffer = await response.arrayBuffer();
+			fontsSubfolder?.file(filename, arrayBuffer);
+		} catch (error) {
+			console.error(`Failed to load font ${filename}:`, error);
+		}
+	}
 
 	// Generate js files
 	const jsFolder = zip.folder('js');

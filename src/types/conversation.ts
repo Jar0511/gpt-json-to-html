@@ -38,7 +38,15 @@ type AssistantMessage = {
 		};
 		is_complete?: boolean;
 		citations?: [];
-		content_references?: [];
+		content_references?: ({
+			matched_text: string;
+			start_idx: number;
+			end_idx: number;
+			safe_urls: string[];
+			refs: [];
+			alt: string | null;
+			prompt_text: null;
+		} & (TextAttrRef | TextLinkRef))[];
 	};
 };
 
@@ -76,6 +84,47 @@ type ToolMessage = {
 	};
 };
 
+type TextAttrRef = {
+	type: 'attribution';
+	attributable_index: string;
+};
+type TextLinkRef = {
+	type: 'grouped_webpages';
+	items: {
+		title: string;
+		url: string;
+		snippet: string;
+		pub_date: number;
+		attribution_segments: string[];
+		supporting_websites: {
+			title: string;
+			url: string;
+			snippet: string;
+			pub_date: number;
+			attribution: string;
+		}[];
+		refs: {
+			turn_index: number;
+			ref_type: string;
+			ref_index: number;
+		}[];
+		hue: null;
+		attributions: null;
+		attribution: string;
+	}[];
+	fallback_items: {
+		title: string;
+		url: string;
+		pub_date: number;
+		snippet: string;
+		refs: {
+			turn_index: number;
+			ref_type: string;
+			ref_index: number;
+		}[];
+	}[];
+};
+
 type TextContent = {
 	content_type: 'text';
 	parts: string[];
@@ -100,24 +149,27 @@ type CodeContent = {
 
 type ImageContent = {
 	content_type: 'multimodal_text';
-	parts: {
-		content_type: string;
-		asset_pointer: string;
-		size_bytes: number;
-		width: number;
-		height: number;
-		fovea: number;
-		metadata: {
-			dalle?: {
-				gen_id: string;
-				prompt: string;
-				seed: number;
-				parent_gen_id: null;
-				edit_op: null;
-				serialization_title: string;
-			};
-		};
-	}[];
+	parts: (
+		| {
+				content_type: string;
+				asset_pointer: string;
+				size_bytes: number;
+				width: number;
+				height: number;
+				fovea: number;
+				metadata: {
+					dalle?: {
+						gen_id: string;
+						prompt: string;
+						seed: number;
+						parent_gen_id: null;
+						edit_op: null;
+						serialization_title: string;
+					};
+				};
+		  }
+		| string
+	)[];
 };
 
 type ContentType =
