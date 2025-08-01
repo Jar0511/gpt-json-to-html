@@ -4,6 +4,7 @@ import ThemeSwitcher from './components/ThemeSwitcher';
 import GitHubLink from './components/GitHubLink';
 import { FileUploadForm } from './components/FileUploadForm';
 import { useDocumentTitle } from './hooks/useDocumentTitle';
+import { Analytics } from "@vercel/analytics/react"
 
 function App() {
 	const { t } = useTranslation();
@@ -28,6 +29,7 @@ function App() {
 					</div>
 
 					<FileUploadForm />
+					<Analytics />
 
 					<p className="text-center text-sm text-gray-500 dark:text-gray-400 mt-8">
 						{t('footer')}
