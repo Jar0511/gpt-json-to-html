@@ -3,9 +3,11 @@ import LanguageSwitcher from './components/LanguageSwitcher';
 import ThemeSwitcher from './components/ThemeSwitcher';
 import GitHubLink from './components/GitHubLink';
 import { FileUploadForm } from './components/FileUploadForm';
+import { useDocumentTitle } from './hooks/useDocumentTitle';
 
 function App() {
 	const { t } = useTranslation();
+	useDocumentTitle();
 
 	return (
 		<div className="h-screen bg-gradient-to-br from-purple-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 transition-colors overflow-hidden font-display">
