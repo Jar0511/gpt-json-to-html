@@ -35,6 +35,7 @@ const RAW_RUNTIME_STATE =
           ["@vercel/analytics", "virtual:086eecf0c6b86f7dec52862b185d6cb3a8d4ca52afb33b2bb7fdb394b8c7e8cc3f84f884d17e9320286789409c39d5d4faa66fed0c070ddf49e7e0667c962377#npm:1.5.0"],\
           ["@vitejs/plugin-react", "virtual:086eecf0c6b86f7dec52862b185d6cb3a8d4ca52afb33b2bb7fdb394b8c7e8cc3f84f884d17e9320286789409c39d5d4faa66fed0c070ddf49e7e0667c962377#npm:4.7.0"],\
           ["gpt-json-to-html", "workspace:."],\
+          ["highlight.js", "npm:11.11.1"],\
           ["i18next", "virtual:086eecf0c6b86f7dec52862b185d6cb3a8d4ca52afb33b2bb7fdb394b8c7e8cc3f84f884d17e9320286789409c39d5d4faa66fed0c070ddf49e7e0667c962377#npm:25.3.2"],\
           ["i18next-browser-languagedetector", "npm:8.2.0"],\
           ["jszip", "npm:3.10.1"],\
@@ -1673,6 +1674,7 @@ const RAW_RUNTIME_STATE =
           ["@vercel/analytics", "virtual:086eecf0c6b86f7dec52862b185d6cb3a8d4ca52afb33b2bb7fdb394b8c7e8cc3f84f884d17e9320286789409c39d5d4faa66fed0c070ddf49e7e0667c962377#npm:1.5.0"],\
           ["@vitejs/plugin-react", "virtual:086eecf0c6b86f7dec52862b185d6cb3a8d4ca52afb33b2bb7fdb394b8c7e8cc3f84f884d17e9320286789409c39d5d4faa66fed0c070ddf49e7e0667c962377#npm:4.7.0"],\
           ["gpt-json-to-html", "workspace:."],\
+          ["highlight.js", "npm:11.11.1"],\
           ["i18next", "virtual:086eecf0c6b86f7dec52862b185d6cb3a8d4ca52afb33b2bb7fdb394b8c7e8cc3f84f884d17e9320286789409c39d5d4faa66fed0c070ddf49e7e0667c962377#npm:25.3.2"],\
           ["i18next-browser-languagedetector", "npm:8.2.0"],\
           ["jszip", "npm:3.10.1"],\
@@ -1694,6 +1696,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/graceful-fs-npm-4.2.11-24bb648a68-386d011a55.zip/node_modules/graceful-fs/",\
         "packageDependencies": [\
           ["graceful-fs", "npm:4.2.11"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["highlight.js", [\
+      ["npm:11.11.1", {\
+        "packageLocation": "./.yarn/cache/highlight.js-npm-11.11.1-1afef66f5e-40f53ac19d.zip/node_modules/highlight.js/",\
+        "packageDependencies": [\
+          ["highlight.js", "npm:11.11.1"]\
         ],\
         "linkType": "HARD"\
       }]\
