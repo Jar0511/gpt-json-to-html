@@ -212,11 +212,12 @@ export interface Conversation {
 
 // Sidebar item types
 export interface SidebarItemBase {
-	title: string;
 	id: string;
+	title: string;
 }
 
 export interface SidebarProject {
+	id: string;
 	title: string;
 	children: SidebarItemBase[];
 }

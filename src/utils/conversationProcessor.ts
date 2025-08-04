@@ -53,6 +53,7 @@ export function createSidebarItems(
 	// groupedConversations를 프로젝트로 추가
 	groupedConversations.forEach((group, index) => {
 		sidebarItems.push({
+			id: group[0].conversation_template_id || '',
 			title: `프로젝트 ${index + 1}`,
 			children: group.map((item) => ({
 				title: item.title || 'Untitled',
