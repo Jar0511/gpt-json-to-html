@@ -31,7 +31,7 @@ function App() {
 					<FileUploadForm />
 					<Analytics />
 
-					<p className="text-center text-sm text-gray-500 dark:text-gray-400 mt-8">
+					<p className="text-center text-sm text-gray-500 dark:text-gray-400 mt-8 whitespace-pre-wrap">
 						{t('footer')}
 					</p>
 				</div>

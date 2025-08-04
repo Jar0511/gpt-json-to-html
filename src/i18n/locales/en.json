@@ -24,5 +24,5 @@
 		"processingConversations": "Processing conversations...",
 		"generatingHtml": "Generating HTML files..."
 	},
-	"footer": "Upload your ChatGPT conversations export and convert them into a beautifully formatted HTML document"
+	"footer": "Upload your ChatGPT conversations export and convert them into a beautifully formatted HTML document.\nAll processing happens in your browser - no files are sent to any server."
 }
