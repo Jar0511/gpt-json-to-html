@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from './components/LanguageSwitcher';
 import ThemeSwitcher from './components/ThemeSwitcher';
 import GitHubLink from './components/GitHubLink';
-import { FileUploadForm } from './components/FileUploadForm';
+import { FileForm } from './components/FileUploadForm';
 import { useDocumentTitle } from './hooks/useDocumentTitle';
 import { Analytics } from "@vercel/analytics/react"
 
@@ -28,7 +28,7 @@ function App() {
 						</p>
 					</div>
 
-					<FileUploadForm />
+					<FileForm />
 					<Analytics />
 
 					<p className="text-center text-sm text-gray-500 dark:text-gray-400 mt-8 whitespace-pre-wrap">

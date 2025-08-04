@@ -4,12 +4,15 @@ import { useTranslation } from 'react-i18next';
 import JSZip from 'jszip';
 import { processConversations } from '@/utils/conversationProcessor';
 import { generateHtmlExport } from '@/utils/htmlGenerator';
+import { useFormData } from '@/contexts/FormContext';
 
 interface FormData {
 	file: FileList;
 }
 
 export function useFileUploadForm() {
+	const { setConversations, setImageFiles, setSidebarItems, setStep } =
+		useFormData();
 	const { t } = useTranslation();
 	const {
 		register,
@@ -117,28 +120,28 @@ export function useFileUploadForm() {
 				// 모든 이미지 파일 읽기 완료 대기
 				await Promise.all(filePromises);
 
-				console.log(
-					`Total image files found: ${Object.keys(imageFiles).length}`
-				);
+				// console.log(
+				// 	`Total image files found: ${Object.keys(imageFiles).length}`
+				// );
 
-				// HTML 생성 및 ZIP 패키징
-				setLoadingStep(t('loading.generatingHtml'));
-				const htmlZipBlob = await generateHtmlExport(
-					sortedConversations,
-					sidebarItems,
-					imageFiles
-				);
+				// // HTML 생성 및 ZIP 패키징
+				// setLoadingStep(t('loading.generatingHtml'));
+				// const htmlZipBlob = await generateHtmlExport(
+				// 	sortedConversations,
+				// 	sidebarItems,
+				// 	imageFiles
+				// );
 
-				// 다운로드 트리거
-				const downloadLink = document.createElement('a');
-				downloadLink.href = URL.createObjectURL(htmlZipBlob);
-				downloadLink.download = 'chatgpt-conversations.zip';
-				document.body.appendChild(downloadLink);
-				downloadLink.click();
-				document.body.removeChild(downloadLink);
-				URL.revokeObjectURL(downloadLink.href);
+				// // 다운로드 트리거
+				// const downloadLink = document.createElement('a');
+				// downloadLink.href = URL.createObjectURL(htmlZipBlob);
+				// downloadLink.download = 'chatgpt-conversations.zip';
+				// document.body.appendChild(downloadLink);
+				// downloadLink.click();
+				// document.body.removeChild(downloadLink);
+				// URL.revokeObjectURL(downloadLink.href);
 
-				console.log('HTML export completed and download triggered');
+				// console.log('HTML export completed and download triggered');
 			} catch (error) {
 				console.error('Error processing zip file:', error);
 				alert(t('errors.invalidZipFile'));
