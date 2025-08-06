@@ -5,6 +5,7 @@ import JSZip from 'jszip';
 import { processConversations } from '@/utils/conversationProcessor';
 import { generateHtmlExport } from '@/utils/htmlGenerator';
 import { useFormData } from '@/contexts/FormContext';
+import { SIDEBAR_KEY } from '../constant';
 
 interface FormData {
 	file: FileList;
@@ -73,19 +74,25 @@ export function useFileUploadForm() {
 
 				// conversations 처리
 				setLoadingStep(t('loading.processingConversations'));
-				const {
-					conversations: sortedConversations,
-					regularConversations,
-					groupedConversations,
-					sidebarItems,
-				} = processConversations(conversations);
+				const { conversations: sortedConversations, sidebarItems } =
+					processConversations(conversations);
 
-				console.log('Regular conversations:', regularConversations.length);
-				console.log(
-					'Grouped conversations:',
-					groupedConversations.length,
-					'groups'
-				);
+				setConversations(sortedConversations);
+				const prevStorage = localStorage.getItem(SIDEBAR_KEY);
+				if (prevStorage) {
+					const prev = JSON.parse(prevStorage) as { [k: string]: string };
+					const load = sidebarItems.map((item) => {
+						if ('children' in item && !!prev[item.id]) {
+							return {
+								...item,
+								title: prev[item.id],
+							};
+						} else return item;
+					});
+					setSidebarItems(load);
+				} else {
+					setSidebarItems(sidebarItems);
+				}
 				console.log('Sidebar items created:', sidebarItems.length);
 
 				// 이미지 파일 추출 (PNG, JPG, WEBP)
@@ -120,9 +127,15 @@ export function useFileUploadForm() {
 				// 모든 이미지 파일 읽기 완료 대기
 				await Promise.all(filePromises);
 
-				// console.log(
-				// 	`Total image files found: ${Object.keys(imageFiles).length}`
-				// );
+				setImageFiles(imageFiles);
+				console.log(
+					`Total image files found: ${Object.keys(imageFiles).length}`
+				);
+
+				const hasProject =
+					sidebarItems.filter((item) => 'children' in item).length > 0;
+				// 다음 단계로 이동
+				setStep('set_project_name');
 
 				// // HTML 생성 및 ZIP 패키징
 				// setLoadingStep(t('loading.generatingHtml'));

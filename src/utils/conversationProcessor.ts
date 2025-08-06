@@ -90,8 +90,6 @@ export function processConversations(conversations: Conversation[]) {
 
 	return {
 		conversations: sortedConversations,
-		regularConversations,
-		groupedConversations,
 		sidebarItems,
 	};
 }

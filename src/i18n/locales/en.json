@@ -4,7 +4,8 @@
 	"fileUpload": {
 		"chooseFile": "Choose your GPT export file",
 		"dropHere": "Drop your file here",
-		"instructions": "ZIP format (export.zip) - Click or drag & drop"
+		"instructions": "ZIP format (export.zip) - Click or drag & drop",
+		"convert": "Convert to HTML"
 	},
 	"errors": {
 		"selectZipFile": "Please select a ZIP file",
@@ -12,9 +13,6 @@
 		"invalidZipFile": "Invalid ZIP file",
 		"invalidJsonFormat": "Invalid JSON format",
 		"conversationsNotArray": "Conversations data is not an array"
-	},
-	"buttons": {
-		"convert": "Convert to HTML"
 	},
 	"loading": {
 		"openingZip": "Opening ZIP file...",
