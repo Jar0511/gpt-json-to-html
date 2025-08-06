@@ -1,21 +1,20 @@
-import { FormDataProvider, useFormData } from "@/contexts/FormContext"
-import { FileUploadForm } from "./FileUploadForm";
+import { FormDataProvider, useFormData } from '@/contexts/FormContext';
+import { FileUploadForm } from './FileUploadForm';
 
 const FormSwitch = () => {
-  const { step } = useFormData();
+	const { step } = useFormData();
 
-  if (step === "file_upload") {
-    return (
-      <FileUploadForm />
-    )
-  }
-  else return null
-}
+	if (step === 'file_upload') {
+		return <FileUploadForm />;
+	} else return null;
+};
 
 export const FileForm = () => {
-  return (
-    <FormDataProvider>
-      <FormSwitch />
-    </FormDataProvider>
-  )
-}
+	return (
+		<FormDataProvider>
+			<div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8">
+				<FormSwitch />
+			</div>
+		</FormDataProvider>
+	);
+};

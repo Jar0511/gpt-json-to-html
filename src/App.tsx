@@ -4,7 +4,7 @@ import ThemeSwitcher from './components/ThemeSwitcher';
 import GitHubLink from './components/GitHubLink';
 import { FileForm } from './components/FileUploadForm';
 import { useDocumentTitle } from './hooks/useDocumentTitle';
-import { Analytics } from "@vercel/analytics/react"
+import { Analytics } from '@vercel/analytics/react';
 
 function App() {
 	const { t } = useTranslation();
