@@ -8,6 +8,7 @@ node_modules
 *.jpeg
 *.gif
 *.webp
+.pnp.*
 
 src/templates/languages
 src/templates/*.min.*
