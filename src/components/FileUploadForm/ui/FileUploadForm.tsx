@@ -1,8 +1,9 @@
 import { useTranslation } from 'react-i18next';
 import { useFileUploadForm } from '../hook';
+import { SubmitButton } from '@/components/Buttons';
 
 export function FileUploadForm() {
-	const { t } = useTranslation();
+	const { t } = useTranslation('translation', { keyPrefix: 'fileUpload' });
 	const {
 		register,
 		handleSubmit,
@@ -23,11 +24,10 @@ export function FileUploadForm() {
 		<form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
 			<label
 				htmlFor="file-upload"
-				className={`border-2 border-dashed rounded-xl p-8 text-center transition-colors cursor-pointer block focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-black ${
-					isDragging
-						? 'border-purple-500 bg-purple-50 dark:bg-purple-900/20'
-						: 'border-gray-300 dark:border-gray-600 hover:border-purple-400 dark:hover:border-purple-500'
-				}`}
+				className={`border-2 border-dashed rounded-xl p-8 text-center transition-colors cursor-pointer block focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-black ${isDragging
+					? 'border-purple-500 bg-purple-50 dark:bg-purple-900/20'
+					: 'border-gray-300 dark:border-gray-600 hover:border-purple-400 dark:hover:border-purple-500'
+					}`}
 				onDragOver={handleDragOver}
 				onDragLeave={handleDragLeave}
 				onDrop={handleDrop}
@@ -54,12 +54,10 @@ export function FileUploadForm() {
 				</svg>
 				<div>
 					<span className="text-lg font-medium text-gray-700 dark:text-gray-200 block mb-2">
-						{selectedFileName || t('fileUpload.chooseFile')}
+						{selectedFileName || t('chooseFile')}
 					</span>
 					<span className="text-sm text-gray-500 dark:text-gray-400">
-						{isDragging
-							? t('fileUpload.dropHere')
-							: t('fileUpload.instructions')}
+						{isDragging ? t('dropHere') : t('instructions')}
 					</span>
 					<input
 						{...register('file', {
@@ -90,23 +88,19 @@ export function FileUploadForm() {
 				<p className="text-red-500 text-sm mt-2">{errors.file.message}</p>
 			)}
 
-			<button
-				type="submit"
-				disabled={!isDirty || isLoading}
-				className="w-full py-4 px-6 text-lg font-semibold text-white bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl hover:not-disabled:from-purple-700 hover:not-disabled:to-blue-700 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:not-disabled:shadow-xl transform hover:not-disabled:-translate-y-0.5 focus:outline-2 focus:outline-offset-2 focus:outline-black cursor-pointer relative"
-			>
+			<SubmitButton disabled={!isDirty || isLoading}>
 				{isLoading ? (
 					<>
-						<span className="opacity-0">{t('buttons.convert')}</span>
-						<div className="absolute inset-0 flex flex-col items-center justify-center gap-2">
-							<div className="w-6 h-6 border-3 border-white border-t-transparent rounded-full animate-spin"></div>
+						<p className="opacity-0">{t('convert')}</p>
+						<div className="absolute inset-0 flex items-center justify-center gap-2">
 							{loadingStep && <span className="text-sm">{loadingStep}</span>}
+							<div className="w-6 h-6 border-3 border-white border-t-transparent rounded-full animate-spin"></div>
 						</div>
 					</>
 				) : (
-					t('buttons.convert')
+					t('convert')
 				)}
-			</button>
+			</SubmitButton>
 		</form>
 	);
 }
