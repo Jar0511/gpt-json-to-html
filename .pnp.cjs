@@ -45,6 +45,7 @@ const RAW_RUNTIME_STATE =
           ["react-dom", "virtual:086eecf0c6b86f7dec52862b185d6cb3a8d4ca52afb33b2bb7fdb394b8c7e8cc3f84f884d17e9320286789409c39d5d4faa66fed0c070ddf49e7e0667c962377#npm:19.1.0"],\
           ["react-hook-form", "virtual:086eecf0c6b86f7dec52862b185d6cb3a8d4ca52afb33b2bb7fdb394b8c7e8cc3f84f884d17e9320286789409c39d5d4faa66fed0c070ddf49e7e0667c962377#npm:7.61.0"],\
           ["react-i18next", "virtual:086eecf0c6b86f7dec52862b185d6cb3a8d4ca52afb33b2bb7fdb394b8c7e8cc3f84f884d17e9320286789409c39d5d4faa66fed0c070ddf49e7e0667c962377#npm:15.6.1"],\
+          ["react-icons", "virtual:086eecf0c6b86f7dec52862b185d6cb3a8d4ca52afb33b2bb7fdb394b8c7e8cc3f84f884d17e9320286789409c39d5d4faa66fed0c070ddf49e7e0667c962377#npm:5.5.0"],\
           ["tailwindcss", "npm:4.1.11"],\
           ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"],\
           ["vite", "virtual:086eecf0c6b86f7dec52862b185d6cb3a8d4ca52afb33b2bb7fdb394b8c7e8cc3f84f884d17e9320286789409c39d5d4faa66fed0c070ddf49e7e0667c962377#npm:5.4.19"]\
@@ -1684,6 +1685,7 @@ const RAW_RUNTIME_STATE =
           ["react-dom", "virtual:086eecf0c6b86f7dec52862b185d6cb3a8d4ca52afb33b2bb7fdb394b8c7e8cc3f84f884d17e9320286789409c39d5d4faa66fed0c070ddf49e7e0667c962377#npm:19.1.0"],\
           ["react-hook-form", "virtual:086eecf0c6b86f7dec52862b185d6cb3a8d4ca52afb33b2bb7fdb394b8c7e8cc3f84f884d17e9320286789409c39d5d4faa66fed0c070ddf49e7e0667c962377#npm:7.61.0"],\
           ["react-i18next", "virtual:086eecf0c6b86f7dec52862b185d6cb3a8d4ca52afb33b2bb7fdb394b8c7e8cc3f84f884d17e9320286789409c39d5d4faa66fed0c070ddf49e7e0667c962377#npm:15.6.1"],\
+          ["react-icons", "virtual:086eecf0c6b86f7dec52862b185d6cb3a8d4ca52afb33b2bb7fdb394b8c7e8cc3f84f884d17e9320286789409c39d5d4faa66fed0c070ddf49e7e0667c962377#npm:5.5.0"],\
           ["tailwindcss", "npm:4.1.11"],\
           ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"],\
           ["vite", "virtual:086eecf0c6b86f7dec52862b185d6cb3a8d4ca52afb33b2bb7fdb394b8c7e8cc3f84f884d17e9320286789409c39d5d4faa66fed0c070ddf49e7e0667c962377#npm:5.4.19"]\
@@ -2480,6 +2482,28 @@ const RAW_RUNTIME_STATE =
           "react-native",\
           "react",\
           "typescript"\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["react-icons", [\
+      ["npm:5.5.0", {\
+        "packageLocation": "./.yarn/cache/react-icons-npm-5.5.0-906730a3cf-a24309bfc9.zip/node_modules/react-icons/",\
+        "packageDependencies": [\
+          ["react-icons", "npm:5.5.0"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
+      ["virtual:086eecf0c6b86f7dec52862b185d6cb3a8d4ca52afb33b2bb7fdb394b8c7e8cc3f84f884d17e9320286789409c39d5d4faa66fed0c070ddf49e7e0667c962377#npm:5.5.0", {\
+        "packageLocation": "./.yarn/__virtual__/react-icons-virtual-e3f8e96187/0/cache/react-icons-npm-5.5.0-906730a3cf-a24309bfc9.zip/node_modules/react-icons/",\
+        "packageDependencies": [\
+          ["@types/react", "npm:19.1.8"],\
+          ["react", "npm:19.1.0"],\
+          ["react-icons", "virtual:086eecf0c6b86f7dec52862b185d6cb3a8d4ca52afb33b2bb7fdb394b8c7e8cc3f84f884d17e9320286789409c39d5d4faa66fed0c070ddf49e7e0667c962377#npm:5.5.0"]\
+        ],\
+        "packagePeers": [\
+          "@types/react",\
+          "react"\
         ],\
         "linkType": "HARD"\
       }]\
