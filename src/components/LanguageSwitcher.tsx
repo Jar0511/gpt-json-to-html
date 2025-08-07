@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 
 const LanguageSwitcher = () => {
-	const { i18n } = useTranslation();
+	const { i18n, t } = useTranslation('translation', { keyPrefix: 'menu' });
 
 	const languages = [
 		{ code: 'ko', name: '한국어' },
@@ -14,6 +14,7 @@ const LanguageSwitcher = () => {
 
 	return (
 		<select
+			aria-label={t('lang')}
 			value={i18n.language}
 			onChange={handleLanguageChange}
 			className="px-3 py-2 upper-buttons text-sm font-medium focusable cursor-pointer"
