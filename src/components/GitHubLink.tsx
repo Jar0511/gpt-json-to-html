@@ -4,11 +4,11 @@ const GitHubLink = () => {
 			href="https://github.com/Jar0511/gpt-json-to-html"
 			target="_blank"
 			rel="noopener noreferrer"
-			className="p-2 rounded-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500 transition-colors cursor-pointer focus:outline-2 focus:outline-offset-2 focus:outline-black inline-block"
+			className="p-2 upper-buttons cursor-pointer focusable inline-block"
 			aria-label="View on GitHub"
 		>
 			<svg
-				className="w-5 h-5 text-gray-700 dark:text-gray-300"
+				className="w-5 h-5 text-[inherit]"
 				fill="currentColor"
 				viewBox="0 0 24 24"
 			>

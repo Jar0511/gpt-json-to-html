@@ -6,14 +6,14 @@ const ThemeSwitcher = () => {
 	return (
 		<button
 			onClick={toggleTheme}
-			className="p-2 rounded-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500 transition-colors cursor-pointer focus:outline-2 focus:outline-offset-2 focus:outline-black"
+			className="p-2 upper-buttons cursor-pointer focusable"
 			aria-label={
 				theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'
 			}
 		>
 			{theme === 'light' ? (
 				<svg
-					className="w-5 h-5 text-gray-700"
+					className="w-5 h-5 text-[inherit]"
 					fill="none"
 					stroke="currentColor"
 					viewBox="0 0 24 24"
