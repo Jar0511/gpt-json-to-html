@@ -4,7 +4,7 @@ import { IoSunny } from 'react-icons/io5';
 import { useTranslation } from 'react-i18next';
 
 const ThemeSwitcher = () => {
-	const { t } = useTranslation('translation', { keyPrefix: 'menu' })
+	const { t } = useTranslation('translation', { keyPrefix: 'menu' });
 	const { theme, toggleTheme } = useTheme();
 
 	return (
@@ -16,7 +16,7 @@ const ThemeSwitcher = () => {
 			{theme === 'light' ? (
 				<FaMoon />
 			) : (
-				<IoSunny className='text-yellow-500 text-lg' />
+				<IoSunny className="text-yellow-500 text-lg" />
 			)}
 		</button>
 	);

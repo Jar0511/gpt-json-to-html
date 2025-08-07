@@ -23,30 +23,35 @@ export function FileUploadForm() {
 	} = useFileUploadForm();
 
 	return (
-		<form onSubmit={handleSubmit(onSubmit)} className="space-y-6 flex flex-col h-full">
+		<form
+			onSubmit={handleSubmit(onSubmit)}
+			className="space-y-6 flex flex-col h-full"
+		>
 			<label
 				htmlFor="file-upload"
-				className={`flex-1 flex flex-col gap-2 items-center justify-center border-2 group border-dashed rounded-xl p-8 text-center transition-colors cursor-pointer focusable ${isDragging
-					? 'border-purple-500 bg-purple-50 dark:bg-indigo-900/20'
-					: 'border-gray-300 dark:border-gray-600 hover:border-purple-400 dark:hover:border-indigo-500'
-					}`}
+				className={`flex-1 flex flex-col gap-2 items-center justify-center border-2 group border-dashed rounded-xl p-8 text-center transition-colors cursor-pointer focusable ${
+					isDragging
+						? 'border-purple-500 bg-purple-50 dark:bg-indigo-900/20'
+						: 'border-gray-300 dark:border-gray-600 hover:border-purple-400 dark:hover:border-indigo-500'
+				}`}
 				onDragOver={handleDragOver}
 				onDragLeave={handleDragLeave}
 				onDrop={handleDrop}
 				onKeyDown={handleKey}
 				tabIndex={0}
 			>
-				<div className='flex-none flex justify-center items-center'>
-					<MdFolderZip className='text-gray-300 group-hover:text-purple-300 transition-colors dark:text-gray-500 dark:group-hover:text-indigo-500 text-6xl' />
+				<div className="flex-none flex justify-center items-center">
+					<MdFolderZip className="text-gray-300 group-hover:text-purple-300 transition-colors dark:text-gray-500 dark:group-hover:text-indigo-500 text-6xl" />
 				</div>
 				<span className="text-lg font-medium text-gray-700 dark:text-gray-200 block">
-					{selectedFileName ?
+					{selectedFileName ? (
 						<>
-							<span className='sr-only'>{t("selected")}</span>
+							<span className="sr-only">{t('selected')}</span>
 							{selectedFileName}
-						</> :
+						</>
+					) : (
 						t('chooseFile')
-					}
+					)}
 				</span>
 				<span className="text-sm text-gray-500 dark:text-gray-400">
 					{isDragging ? t('dropHere') : t('instructions')}

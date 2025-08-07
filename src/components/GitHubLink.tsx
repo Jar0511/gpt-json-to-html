@@ -1,5 +1,5 @@
-import { useTranslation } from "react-i18next";
-import { VscGithubInverted } from "react-icons/vsc";
+import { useTranslation } from 'react-i18next';
+import { VscGithubInverted } from 'react-icons/vsc';
 
 const GitHubLink = () => {
 	const { t } = useTranslation('translation', { keyPrefix: 'menu' });
@@ -9,7 +9,7 @@ const GitHubLink = () => {
 			target="_blank"
 			rel="noopener noreferrer"
 			className="upper-buttons cursor-pointer focusable inline-flex items-center justify-center size-[2.25rem] text-lg"
-			aria-label={t("github")}
+			aria-label={t('github')}
 		>
 			<VscGithubInverted />
 		</a>
