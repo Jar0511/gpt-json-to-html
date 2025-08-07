@@ -1,9 +1,15 @@
 {
 	"title": "GPT 대화 백업 HTML 변환",
 	"subtitle": "'ChatGPT 내보내기' 데이터를 아름다운 HTML 페이지로 변환하세요",
+	"menu": {
+		"github": "깃허브에서 보기",
+		"theme": "테마 변경",
+		"lang": "언어 선택"
+	},
 	"fileUpload": {
 		"chooseFile": "파일을 선택하세요",
 		"dropHere": "파일을 여기에 놓으세요",
+		"selected": "선택된 파일:",
 		"instructions": "ZIP 형식 (export.zip) - 클릭하거나 드래그 앤 드롭",
 		"convert": "HTML로 변환"
 	},

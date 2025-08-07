@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import { useState, DragEvent, useRef } from 'react';
+import { useState, DragEvent, useRef, KeyboardEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import JSZip from 'jszip';
 import { processConversations } from '@/utils/conversationProcessor';
@@ -195,6 +195,13 @@ export function useFileUploadForm() {
 		}
 	};
 
+	const handleKey = (e: KeyboardEvent<HTMLLabelElement>) => {
+		if (e.key === 'Enter' || e.key === ' ') {
+			e.preventDefault();
+			fileInputRef.current?.click();
+		}
+	};
+
 	return {
 		register,
 		handleSubmit,
@@ -208,6 +215,7 @@ export function useFileUploadForm() {
 		handleDragOver,
 		handleDragLeave,
 		handleDrop,
+		handleKey,
 		fileInputRef,
 	};
 }

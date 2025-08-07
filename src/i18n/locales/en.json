@@ -1,9 +1,15 @@
 {
 	"title": "GPT Conversations to HTML",
 	"subtitle": "Transform your ChatGPT export data into beautiful HTML pages",
+	"menu": {
+		"github": "View on GitHub",
+		"theme": "Toggle Theme",
+		"lang": "Select Language"
+	},
 	"fileUpload": {
 		"chooseFile": "Choose your GPT export file",
 		"dropHere": "Drop your file here",
+		"selected": "Selected file:",
 		"instructions": "ZIP format (export.zip) - Click or drag & drop",
 		"convert": "Convert to HTML"
 	},
