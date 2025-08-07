@@ -24,10 +24,11 @@ export function FileUploadForm() {
 		<form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
 			<label
 				htmlFor="file-upload"
-				className={`border-2 border-dashed rounded-xl p-8 text-center transition-colors cursor-pointer block focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-black ${isDragging
-					? 'border-purple-500 bg-purple-50 dark:bg-purple-900/20'
-					: 'border-gray-300 dark:border-gray-600 hover:border-purple-400 dark:hover:border-purple-500'
-					}`}
+				className={`border-2 border-dashed rounded-xl p-8 text-center transition-colors cursor-pointer block focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-black ${
+					isDragging
+						? 'border-purple-500 bg-purple-50 dark:bg-purple-900/20'
+						: 'border-gray-300 dark:border-gray-600 hover:border-purple-400 dark:hover:border-purple-500'
+				}`}
 				onDragOver={handleDragOver}
 				onDragLeave={handleDragLeave}
 				onDrop={handleDrop}
