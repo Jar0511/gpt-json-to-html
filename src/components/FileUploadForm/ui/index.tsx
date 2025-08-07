@@ -15,7 +15,7 @@ const FormSwitch = () => {
 export const FileForm = () => {
 	return (
 		<FormDataProvider>
-			<div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 flex-1 overflow-auto">
+			<div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-4 sm:p-8 flex-1 overflow-auto">
 				<FormSwitch />
 			</div>
 		</FormDataProvider>
